@@ -1,0 +1,1528 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>有機化學 I 複習站</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700;900&family=Noto+Sans+TC:wght@300;400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0e1a;
+  --bg2: #0f1525;
+  --bg3: #141c2e;
+  --surface: #1a2340;
+  --surface2: #1e2a4a;
+  --border: #2a3a5c;
+  --accent1: #4fc3f7;   /* 電藍 */
+  --accent2: #81c784;   /* 草綠 */
+  --accent3: #ffb74d;   /* 琥珀 */
+  --accent4: #f48fb1;   /* 玫瑰 */
+  --accent5: #ce93d8;   /* 紫 */
+  --text: #e8edf8;
+  --text2: #9aabc8;
+  --text3: #6a7d9e;
+  --danger: #ef5350;
+  --success: #66bb6a;
+  --font-disp: 'Noto Serif TC', serif;
+  --font-body: 'Noto Sans TC', sans-serif;
+  --font-mono: 'Space Mono', monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+/* ─── SCROLLBAR ─── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+/* ─── HERO ─── */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  padding: 2rem;
+}
+
+.hero-bg {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 20% 30%, rgba(79,195,247,0.08) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 60% at 80% 70%, rgba(129,199,132,0.06) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 40% at 50% 100%, rgba(206,147,216,0.07) 0%, transparent 50%);
+  animation: bgPulse 8s ease-in-out infinite alternate;
+}
+@keyframes bgPulse {
+  0% { opacity: 0.6; }
+  100% { opacity: 1; }
+}
+
+/* molecule grid background */
+.hero-grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(79,195,247,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(79,195,247,0.04) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black, transparent);
+}
+
+.hero-badge {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  color: var(--accent1);
+  text-transform: uppercase;
+  border: 1px solid rgba(79,195,247,0.3);
+  padding: 0.3rem 1rem;
+  border-radius: 20px;
+  margin-bottom: 1.5rem;
+  animation: fadeUp 0.8s ease both;
+  background: rgba(79,195,247,0.05);
+}
+
+.hero h1 {
+  font-family: var(--font-disp);
+  font-size: clamp(2.4rem, 6vw, 4.5rem);
+  font-weight: 900;
+  line-height: 1.15;
+  margin-bottom: 0.5rem;
+  animation: fadeUp 0.8s 0.1s ease both;
+}
+
+.hero h1 span.glow {
+  background: linear-gradient(135deg, var(--accent1), var(--accent2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-sub {
+  font-size: 1.1rem;
+  color: var(--text2);
+  margin-bottom: 2.5rem;
+  animation: fadeUp 0.8s 0.2s ease both;
+}
+
+.hero-pills {
+  display: flex; flex-wrap: wrap; gap: 0.6rem;
+  justify-content: center;
+  margin-bottom: 2.5rem;
+  animation: fadeUp 0.8s 0.3s ease both;
+}
+.pill {
+  font-size: 0.8rem;
+  padding: 0.3rem 0.9rem;
+  border-radius: 20px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+}
+.pill-blue  { background: rgba(79,195,247,0.15); color: var(--accent1); border: 1px solid rgba(79,195,247,0.3); }
+.pill-green { background: rgba(129,199,132,0.15); color: var(--accent2); border: 1px solid rgba(129,199,132,0.3); }
+.pill-amber { background: rgba(255,183,77,0.15); color: var(--accent3); border: 1px solid rgba(255,183,77,0.3); }
+.pill-rose  { background: rgba(244,143,177,0.15); color: var(--accent4); border: 1px solid rgba(244,143,177,0.3); }
+.pill-purple{ background: rgba(206,147,216,0.15); color: var(--accent5); border: 1px solid rgba(206,147,216,0.3); }
+
+.hero-scroll {
+  animation: fadeUp 0.8s 0.5s ease both;
+  display: flex; flex-direction: column; align-items: center; gap: 0.4rem;
+  color: var(--text3); font-size: 0.8rem; letter-spacing: 0.1em;
+  cursor: pointer;
+}
+.scroll-arrow { width: 24px; height: 24px; border-right: 2px solid var(--text3); border-bottom: 2px solid var(--text3);
+  transform: rotate(45deg); animation: bounce 1.4s ease-in-out infinite; }
+@keyframes bounce { 0%,100%{transform:rotate(45deg) translateY(0)} 50%{transform:rotate(45deg) translateY(5px)} }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── NAV ─── */
+nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(10,14,26,0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 1.5rem;
+  display: flex; align-items: center; gap: 0;
+  overflow-x: auto;
+}
+nav::-webkit-scrollbar { height: 0; }
+.nav-tab {
+  padding: 1rem 1.1rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text3);
+  cursor: pointer;
+  white-space: nowrap;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s;
+  text-decoration: none;
+}
+.nav-tab:hover { color: var(--text); border-bottom-color: var(--border); }
+.nav-tab.active { color: var(--accent1); border-bottom-color: var(--accent1); }
+
+/* ─── MAIN LAYOUT ─── */
+main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem 6rem;
+}
+
+/* ─── SECTION ─── */
+section {
+  margin-bottom: 5rem;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+section.visible { opacity: 1; transform: translateY(0); }
+
+.section-header {
+  display: flex; align-items: center; gap: 1rem;
+  margin-bottom: 2rem;
+}
+.section-num {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--accent1);
+  background: rgba(79,195,247,0.1);
+  border: 1px solid rgba(79,195,247,0.25);
+  padding: 0.25rem 0.6rem;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+.section-title {
+  font-family: var(--font-disp);
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--text);
+}
+.section-line {
+  flex: 1; height: 1px;
+  background: linear-gradient(90deg, var(--border), transparent);
+}
+
+/* ─── CARDS ─── */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.2rem;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.4rem;
+  transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+.card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 2px;
+}
+.card:hover { transform: translateY(-3px); box-shadow: 0 12px 32px rgba(0,0,0,0.4); }
+
+.card.blue::before  { background: linear-gradient(90deg, var(--accent1), transparent); }
+.card.green::before { background: linear-gradient(90deg, var(--accent2), transparent); }
+.card.amber::before { background: linear-gradient(90deg, var(--accent3), transparent); }
+.card.rose::before  { background: linear-gradient(90deg, var(--accent4), transparent); }
+.card.purple::before{ background: linear-gradient(90deg, var(--accent5), transparent); }
+.card:hover.blue  { border-color: rgba(79,195,247,0.4); }
+.card:hover.green { border-color: rgba(129,199,132,0.4); }
+.card:hover.amber { border-color: rgba(255,183,77,0.4); }
+.card:hover.rose  { border-color: rgba(244,143,177,0.4); }
+.card:hover.purple{ border-color: rgba(206,147,216,0.4); }
+
+.card-icon { font-size: 1.8rem; margin-bottom: 0.7rem; }
+.card-title {
+  font-family: var(--font-disp);
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-bottom: 0.4rem;
+}
+.card-formula {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  padding: 0.3rem 0.6rem;
+  border-radius: 4px;
+  display: inline-block;
+  margin-bottom: 0.7rem;
+}
+.card.blue .card-formula  { background: rgba(79,195,247,0.1); color: var(--accent1); }
+.card.green .card-formula { background: rgba(129,199,132,0.1); color: var(--accent2); }
+.card.amber .card-formula { background: rgba(255,183,77,0.1); color: var(--accent3); }
+.card.rose .card-formula  { background: rgba(244,143,177,0.1); color: var(--accent4); }
+.card.purple .card-formula{ background: rgba(206,147,216,0.1); color: var(--accent5); }
+
+.card-body { font-size: 0.87rem; color: var(--text2); line-height: 1.65; }
+.card-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.9rem; }
+.tag {
+  font-size: 0.7rem; padding: 0.15rem 0.5rem; border-radius: 4px;
+  font-family: var(--font-mono);
+}
+.tag-outline { border: 1px solid var(--border); color: var(--text3); }
+.tag-fill-blue  { background: rgba(79,195,247,0.15); color: var(--accent1); }
+.tag-fill-green { background: rgba(129,199,132,0.15); color: var(--accent2); }
+.tag-fill-amber { background: rgba(255,183,77,0.15); color: var(--accent3); }
+.tag-fill-rose  { background: rgba(244,143,177,0.15); color: var(--accent4); }
+.tag-fill-purple{ background: rgba(206,147,216,0.15); color: var(--accent5); }
+
+/* ─── REACTION TABLE ─── */
+.rtable-wrap { overflow-x: auto; border-radius: 10px; border: 1px solid var(--border); }
+.rtable {
+  width: 100%; border-collapse: collapse;
+  font-size: 0.875rem;
+}
+.rtable thead th {
+  background: var(--surface2);
+  padding: 0.8rem 1rem;
+  text-align: left;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  color: var(--text2);
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+.rtable tbody tr { border-bottom: 1px solid rgba(42,58,92,0.6); transition: background 0.15s; }
+.rtable tbody tr:hover { background: var(--surface2); }
+.rtable tbody td { padding: 0.85rem 1rem; vertical-align: top; color: var(--text2); line-height: 1.55; }
+.rtable tbody td:first-child { white-space: nowrap; }
+.rtable .type-badge {
+  font-size: 0.7rem; padding: 0.2rem 0.55rem; border-radius: 4px;
+  font-weight: 600; white-space: nowrap;
+  font-family: var(--font-mono);
+}
+.badge-sub   { background: rgba(79,195,247,0.15); color: var(--accent1); }
+.badge-add   { background: rgba(129,199,132,0.15); color: var(--accent2); }
+.badge-poly  { background: rgba(255,183,77,0.15); color: var(--accent3); }
+.badge-ox    { background: rgba(244,143,177,0.15); color: var(--accent4); }
+.badge-elim  { background: rgba(206,147,216,0.15); color: var(--accent5); }
+.badge-burn  { background: rgba(239,83,80,0.15); color: var(--danger); }
+.rtable .eq {
+  font-family: var(--font-mono); font-size: 0.78rem;
+  background: rgba(255,255,255,0.03); padding: 0.3rem 0.6rem;
+  border-radius: 4px; display: inline-block;
+  border: 1px solid var(--border);
+  line-height: 1.6;
+}
+.rtable .star { color: var(--accent3); }
+.rtable .cond { font-size: 0.78rem; color: var(--text3); }
+
+/* ─── NAMING SECTION ─── */
+.naming-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;
+}
+@media(max-width:640px){ .naming-grid { grid-template-columns: 1fr; } }
+
+.naming-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.naming-card-header {
+  padding: 0.7rem 1.1rem;
+  font-size: 0.8rem;
+  font-family: var(--font-mono);
+  letter-spacing: 0.08em;
+  font-weight: 700;
+}
+.naming-card-body { padding: 1rem 1.1rem; }
+
+.suffix-table { width: 100%; font-size: 0.85rem; }
+.suffix-table tr { border-bottom: 1px solid rgba(42,58,92,0.5); }
+.suffix-table td { padding: 0.5rem 0.4rem; }
+.suffix-table .name { font-weight: 600; color: var(--text); }
+.suffix-table .zh { color: var(--text2); }
+.suffix-table .en {
+  font-family: var(--font-mono); font-size: 0.75rem;
+  color: var(--accent1);
+  background: rgba(79,195,247,0.08);
+  padding: 0.1rem 0.4rem; border-radius: 3px;
+}
+
+/* ─── STEPS ─── */
+.steps { display: flex; flex-direction: column; gap: 0.8rem; }
+.step {
+  display: flex; gap: 1rem; align-items: flex-start;
+  padding: 0.9rem 1rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  transition: border-color 0.2s;
+}
+.step:hover { border-color: rgba(79,195,247,0.35); }
+.step-num {
+  flex-shrink: 0; width: 28px; height: 28px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent1), #0288d1);
+  color: white; font-weight: 700; font-size: 0.78rem;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-mono);
+}
+.step-content .step-title { font-weight: 600; font-size: 0.9rem; margin-bottom: 0.2rem; }
+.step-content .step-desc { font-size: 0.82rem; color: var(--text2); }
+
+/* ─── QUIZ ─── */
+.quiz-list { display: flex; flex-direction: column; gap: 1.2rem; }
+.quiz-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.quiz-header {
+  padding: 1rem 1.2rem;
+  cursor: pointer;
+  display: flex; align-items: flex-start; gap: 0.8rem;
+  transition: background 0.15s;
+  user-select: none;
+}
+.quiz-header:hover { background: var(--surface2); }
+.quiz-num {
+  flex-shrink: 0;
+  font-family: var(--font-mono); font-size: 0.7rem;
+  padding: 0.2rem 0.5rem; border-radius: 4px;
+  font-weight: 700;
+}
+.quiz-q { font-size: 0.9rem; line-height: 1.6; flex: 1; white-space: pre-line; }
+.quiz-toggle {
+  flex-shrink: 0; width: 22px; height: 22px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.7rem; color: var(--text3);
+  transition: transform 0.3s, background 0.2s;
+  margin-top: 2px;
+}
+.quiz-item.open .quiz-toggle { transform: rotate(180deg); background: var(--surface2); }
+
+.quiz-answer {
+  max-height: 0; overflow: hidden;
+  transition: max-height 0.4s ease;
+  border-top: 1px solid transparent;
+}
+.quiz-item.open .quiz-answer {
+  max-height: 600px;
+  border-top-color: var(--border);
+}
+.quiz-answer-inner {
+  padding: 1rem 1.2rem 1.2rem;
+  font-size: 0.875rem; color: var(--text2); line-height: 1.7;
+  white-space: pre-line;
+}
+.quiz-answer-inner .ans-label {
+  font-family: var(--font-mono); font-size: 0.7rem;
+  color: var(--accent2); letter-spacing: 0.1em;
+  margin-bottom: 0.5rem; display: block;
+}
+.quiz-answer-inner strong { color: var(--text); }
+
+/* ─── ERROR BOX ─── */
+.error-list { display: flex; flex-direction: column; gap: 0.8rem; }
+.error-item {
+  display: flex; gap: 0.9rem;
+  padding: 1rem 1.1rem;
+  border-radius: 8px;
+  border: 1px solid rgba(239,83,80,0.2);
+  background: rgba(239,83,80,0.04);
+  font-size: 0.875rem;
+}
+.error-item .e-icon { flex-shrink: 0; font-size: 1rem; }
+.error-item .e-content .e-title {
+  font-weight: 700; color: var(--danger); margin-bottom: 0.25rem; font-size: 0.85rem;
+}
+.error-item .e-content .e-desc { color: var(--text2); line-height: 1.6; }
+
+/* ─── COMPARE TABLE ─── */
+.compare-wrap { overflow-x: auto; border-radius: 10px; border: 1px solid var(--border); }
+.compare-table { width: 100%; border-collapse: collapse; font-size: 0.83rem; min-width: 600px; }
+.compare-table th {
+  background: var(--surface2); padding: 0.7rem 0.8rem;
+  text-align: center; font-family: var(--font-mono);
+  font-size: 0.72rem; letter-spacing: 0.07em; color: var(--text2);
+  border-bottom: 1px solid var(--border); border-right: 1px solid var(--border);
+}
+.compare-table td {
+  padding: 0.7rem 0.8rem; text-align: center;
+  border-bottom: 1px solid rgba(42,58,92,0.5);
+  border-right: 1px solid rgba(42,58,92,0.3);
+  color: var(--text2);
+}
+.compare-table tr:hover td { background: var(--surface2); }
+.yes { color: var(--success); font-weight: 700; font-size: 1rem; }
+.no  { color: var(--danger); font-size: 1rem; }
+.td-name { font-weight: 700; color: var(--text); text-align: left !important; }
+.td-mono { font-family: var(--font-mono); font-size: 0.75rem; color: var(--accent1); }
+
+/* ─── INFO CALLOUT ─── */
+.callout {
+  padding: 1rem 1.2rem;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  line-height: 1.7;
+  margin: 1rem 0;
+  display: flex; gap: 0.8rem;
+}
+.callout-icon { flex-shrink: 0; font-size: 1.1rem; }
+.callout-body .callout-title { font-weight: 700; margin-bottom: 0.3rem; }
+.callout.info { background: rgba(79,195,247,0.08); border: 1px solid rgba(79,195,247,0.2); color: var(--text2); }
+.callout.info .callout-title { color: var(--accent1); }
+.callout.warn { background: rgba(255,183,77,0.08); border: 1px solid rgba(255,183,77,0.2); color: var(--text2); }
+.callout.warn .callout-title { color: var(--accent3); }
+
+/* ─── FOOTER ─── */
+footer {
+  text-align: center; padding: 2.5rem 1rem;
+  border-top: 1px solid var(--border);
+  color: var(--text3); font-size: 0.8rem;
+  font-family: var(--font-mono);
+}
+
+/* ─── PROGRESS ─── */
+.progress-bar {
+  position: fixed; top: 0; left: 0; height: 2px;
+  background: linear-gradient(90deg, var(--accent1), var(--accent2));
+  z-index: 200; transition: width 0.1s;
+}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:600px){
+  .card-grid { grid-template-columns: 1fr; }
+  .section-title { font-size: 1.3rem; }
+}
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progress"></div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-badge">高中化學 · 有機化合物 I</div>
+  <h1>有機化學<br><span class="glow">烴類完整複習站</span></h1>
+  <p class="hero-sub">烷 · 烯 · 炔 · 芳香烴｜官能基導向 + 反應機制架構</p>
+  <div class="hero-pills">
+    <span class="pill pill-blue">📘 核心概念</span>
+    <span class="pill pill-green">⚗️ 官能基分類</span>
+    <span class="pill pill-amber">🔁 反應總覽</span>
+    <span class="pill pill-rose">📝 命名規則</span>
+    <span class="pill pill-purple">🧪 學測練習</span>
+  </div>
+  <div class="hero-scroll" onclick="document.getElementById('sec1').scrollIntoView({behavior:'smooth'})">
+    <span>開始複習</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav id="mainNav">
+  <a class="nav-tab active" href="#sec1">核心概念</a>
+  <a class="nav-tab" href="#sec2">官能基</a>
+  <a class="nav-tab" href="#sec3">反應總覽</a>
+  <a class="nav-tab" href="#sec4">命名規則</a>
+  <a class="nav-tab" href="#sec4b">異構物</a>
+  <a class="nav-tab" href="#sec5">練習題</a>
+  <a class="nav-tab" href="#sec6">易錯清單</a>
+  <a class="nav-tab" href="#sec7">性質比較</a>
+</nav>
+
+<main>
+
+<!-- ══ SEC 1 核心概念 ══ -->
+<section id="sec1">
+  <div class="section-header">
+    <span class="section-num">01</span>
+    <h2 class="section-title">核心概念概述</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="callout info">
+    <span class="callout-icon">💡</span>
+    <div class="callout-body">
+      <div class="callout-title">本章主軸：烴類（Hydrocarbons）</div>
+      本章圍繞只含碳（C）與氫（H）的有機化合物展開。根據碳碳鍵的種類，烴類分為<strong>飽和烴</strong>（烷、環烷）與<strong>不飽和烴</strong>（烯、炔、芳香烴）。飽和烴碳碳間只有單鍵，化性穩定；不飽和烴含 π 鍵，化性活潑，容易發生加成反應。芳香烴（苯系）雖屬不飽和烴，但因 π 鍵形成共振（離域），結構特別穩定，主要發生取代而非加成反應。
+    </div>
+  </div>
+
+  <div class="callout warn" style="margin-top:1rem">
+    <span class="callout-icon">🔑</span>
+    <div class="callout-body">
+      <div class="callout-title">結構決定性質</div>
+      有機化合物的「官能基」決定化學活性。碳碳雙鍵（烯基）讓烯類容易被溴水、KMnO₄ 氧化；碳碳參鍵讓炔類可連續加成。物理性質上，碳數越多分子量越大，沸點越高；所有烴類不溶於水，可溶於非極性有機溶劑（苯、CCl₄ 等）。
+    </div>
+  </div>
+
+  <div class="card-grid" style="margin-top:1.8rem">
+    <div class="card blue">
+      <div class="card-icon">⛓</div>
+      <div class="card-title">飽和烴</div>
+      <div class="card-formula">CₙH₂ₙ₊₂ / CₙH₂ₙ</div>
+      <div class="card-body">碳碳間全為單鍵（σ鍵），包含鏈烷與環烷。化性穩定，常溫下幾乎不反應，可燃燒。</div>
+      <div class="card-tags">
+        <span class="tag tag-fill-blue">烷</span>
+        <span class="tag tag-fill-blue">環烷</span>
+        <span class="tag tag-outline">σ鍵</span>
+      </div>
+    </div>
+    <div class="card green">
+      <div class="card-icon">⚡</div>
+      <div class="card-title">不飽和烴（脂肪烴）</div>
+      <div class="card-formula">CₙH₂ₙ / CₙH₂ₙ₋₂</div>
+      <div class="card-body">含 C=C 或 C≡C，π 鍵弱，化性活潑。可使溴水及 KMnO₄ 褪色，進行加成與聚合反應。</div>
+      <div class="card-tags">
+        <span class="tag tag-fill-green">烯</span>
+        <span class="tag tag-fill-green">炔</span>
+        <span class="tag tag-outline">π鍵</span>
+      </div>
+    </div>
+    <div class="card purple">
+      <div class="card-icon">🌸</div>
+      <div class="card-title">芳香烴（苯系）</div>
+      <div class="card-formula">C₆H₅— / CₙH₂ₙ₋₆</div>
+      <div class="card-body">含苯環，π 電子共振離域，結構穩定，鍵長均等（1.39 Å）。主要進行取代，不易加成。</div>
+      <div class="card-tags">
+        <span class="tag tag-fill-purple">苯</span>
+        <span class="tag tag-fill-purple">共振</span>
+        <span class="tag tag-outline">取代反應</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ SEC 2 官能基 ══ -->
+<section id="sec2">
+  <div class="section-header">
+    <span class="section-num">02</span>
+    <h2 class="section-title">官能基分類</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="card-grid">
+    <!-- 烷 -->
+    <div class="card blue">
+      <div class="card-icon">🔵</div>
+      <div class="card-title">烷（Alkane）</div>
+      <div class="card-formula">C–C 單鍵，無官能基</div>
+      <div class="card-body">
+        <strong>結構：</strong>全為 σ 鍵，非極性，最穩定的烴類。<br>
+        <strong>物性：</strong>不溶於水，比重 &lt; 1，C₁~C₄ 為氣體。<br>
+        <strong>反應：</strong>可燃燒；鹵化需光照或高溫（取代）。<br>
+        <strong>例：</strong>甲烷 CH₄、乙烷 C₂H₆
+      </div>
+      <div class="card-tags">
+        <span class="tag tag-fill-blue">燃燒</span>
+        <span class="tag tag-fill-blue">取代</span>
+        <span class="tag tag-outline">飽和</span>
+      </div>
+    </div>
+    <!-- 烯 -->
+    <div class="card green">
+      <div class="card-icon">🟢</div>
+      <div class="card-title">烯（Alkene）</div>
+      <div class="card-formula">C=C 雙鍵（烯基）</div>
+      <div class="card-body">
+        <strong>結構：</strong>含 1 個 π 鍵 + 1 個 σ 鍵，平面形（120°）。<br>
+        <strong>物性：</strong>不溶於水，化性活潑。<br>
+        <strong>反應：</strong>使溴水褪色（加成）；使 KMnO₄ 褪色（氧化）；可聚合。<br>
+        <strong>例：</strong>乙烯 CH₂=CH₂、丙烯 C₃H₆
+      </div>
+      <div class="card-tags">
+        <span class="tag tag-fill-green">加成</span>
+        <span class="tag tag-fill-green">聚合</span>
+        <span class="tag tag-fill-green">氧化</span>
+        <span class="tag tag-outline">褪色溴水✓</span>
+      </div>
+    </div>
+    <!-- 炔 -->
+    <div class="card amber">
+      <div class="card-icon">🟡</div>
+      <div class="card-title">炔（Alkyne）</div>
+      <div class="card-formula">C≡C 參鍵（炔基）</div>
+      <div class="card-body">
+        <strong>結構：</strong>含 2 個 π 鍵 + 1 個 σ 鍵，線形（180°）。<br>
+        <strong>物性：</strong>不溶於水，反應性比烯更強。<br>
+        <strong>反應：</strong>連續加成；末端炔（-C≡C-H）可與銀氨液生成白色沉澱。<br>
+        <strong>例：</strong>乙炔 C₂H₂、丙炔 C₃H₄
+      </div>
+      <div class="card-tags">
+        <span class="tag tag-fill-amber">加成</span>
+        <span class="tag tag-fill-amber">末端取代</span>
+        <span class="tag tag-outline">銀氨液→白↓</span>
+      </div>
+    </div>
+    <!-- 芳香烴 -->
+    <div class="card purple">
+      <div class="card-icon">🔮</div>
+      <div class="card-title">芳香烴（Arene）</div>
+      <div class="card-formula">苯環（共振結構）</div>
+      <div class="card-body">
+        <strong>結構：</strong>6 個碳平面六角形，鍵長均等 1.39 Å，鍵級 1.5。<br>
+        <strong>物性：</strong>不溶於水，有特殊氣味，具共振穩定性。<br>
+        <strong>反應：</strong>主要為取代（鹵化、硝化、磺化）；不使溴水褪色。<br>
+        <strong>例：</strong>苯 C₆H₆、甲苯 C₇H₈、萘 C₁₀H₈
+      </div>
+      <div class="card-tags">
+        <span class="tag tag-fill-purple">取代</span>
+        <span class="tag tag-fill-purple">共振穩定</span>
+        <span class="tag tag-outline">溴水不褪色</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ SEC 3 反應總覽 ══ -->
+<section id="sec3">
+  <div class="section-header">
+    <span class="section-num">03</span>
+    <h2 class="section-title">有機反應總覽</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <!-- 烷類 -->
+  <h3 style="font-family:var(--font-disp);font-size:1rem;color:var(--accent1);margin-bottom:0.8rem;margin-top:0">
+    ① 烷類反應
+  </h3>
+  <div class="rtable-wrap" style="margin-bottom:2rem">
+    <table class="rtable">
+      <thead>
+        <tr>
+          <th>類型</th><th>方程式</th><th>條件</th><th>⭐ 考試重點</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="type-badge badge-burn">燃燒</span></td>
+          <td><code class="eq">CH₄ + 2O₂ → CO₂ + 2H₂O</code></td>
+          <td class="cond">充足 O₂，點火</td>
+          <td>最重要能源用途；ΔH = -890 kJ/mol</td>
+        </tr>
+        <tr>
+          <td><span class="type-badge badge-sub">鹵化取代</span></td>
+          <td><code class="eq">CH₄ + Cl₂ →(hν) CH₃Cl + HCl</code></td>
+          <td class="cond">光照或高溫（非催化劑！）</td>
+          <td><span class="star">⭐</span> 自由基機制；可連續取代到 CCl₄</td>
+        </tr>
+        <tr>
+          <td><span class="type-badge badge-sub">硝化取代</span></td>
+          <td><code class="eq">CH₄ + HNO₃ →(>475°C) CH₃NO₂ + H₂O</code></td>
+          <td class="cond">高溫（&gt;475°C），濃硝酸</td>
+          <td><span class="star">⭐</span> H 被 -NO₂（硝基）取代，生成硝基甲烷；與鹵化同為取代反應</td>
+        </tr>
+        <tr>
+          <td><span class="type-badge badge-elim">裂解</span></td>
+          <td><code class="eq">C₄H₁₀ → C₃H₆ + CH₄</code></td>
+          <td class="cond">高溫、隔絕空氣、觸媒</td>
+          <td><span class="star">⭐</span> 工業製烯烴的方法</td>
+        </tr>
+        <tr>
+          <td><span class="type-badge badge-elim">脫氫</span></td>
+          <td><code class="eq">C₄H₁₀ → C₄H₈ + H₂</code></td>
+          <td class="cond">高溫、觸媒</td>
+          <td>脫氫後形成烯類；鏈不斷裂</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 烯類 -->
+  <h3 style="font-family:var(--font-disp);font-size:1rem;color:var(--accent2);margin-bottom:0.8rem">
+    ② 烯類反應
+  </h3>
+  <div class="rtable-wrap" style="margin-bottom:2rem">
+    <table class="rtable">
+      <thead>
+        <tr><th>類型</th><th>方程式</th><th>條件</th><th>⭐ 考試重點</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="type-badge badge-add">氫化加成</span></td>
+          <td><code class="eq">CH₂=CH₂ + H₂ →(Pt) CH₃CH₃</code></td>
+          <td class="cond">Pt 或 Ni 催化</td>
+          <td><span class="star">⭐</span> 食用油氫化固化；反式脂肪來源</td>
+        </tr>
+        <tr>
+          <td><span class="type-badge badge-add">鹵化加成</span></td>
+          <td><code class="eq">CH₂=CH₂ + Br₂ → CH₂BrCH₂Br</code></td>
+          <td class="cond">直接混合，無需催化</td>
+          <td><span class="star">⭐</span> 溴的紅棕色褪色 → 鑑別烯類！</td>
+        </tr>
+        <tr>
+          <td><span class="type-badge badge-add">HX 加成</span></td>
+          <td><code class="eq">CH₂=CH₂ + HBr → CH₃CH₂Br</code></td>
+          <td class="cond">馬可尼可夫法則</td>
+          <td><span class="star">⭐</span> H 加氫多碳，X 加氫少碳</td>
+        </tr>
+        <tr>
+          <td><span class="type-badge badge-add">水合加成</span></td>
+          <td><code class="eq">CH₂=CH₂ + H₂O →(H₂SO₄) C₂H₅OH</code></td>
+          <td class="cond">H₂SO₄ 催化，加熱</td>
+          <td><span class="star">⭐</span> 工業製乙醇的方法</td>
+        </tr>
+        <tr>
+          <td><span class="type-badge badge-poly">聚合</span></td>
+          <td><code class="eq">nCH₂=CH₂ → -(CH₂CH₂)ₙ-（PE）</code></td>
+          <td class="cond">高溫高壓 + 催化劑</td>
+          <td><span class="star">⭐</span> 乙烯→PE，氯乙烯→PVC，苯乙烯→PS</td>
+        </tr>
+        <tr>
+          <td><span class="type-badge badge-ox">KMnO₄ 氧化</span></td>
+          <td><code class="eq">烯 + KMnO₄ → 二元醇 + MnO₂↓</code></td>
+          <td class="cond">中性或微鹼性，室溫</td>
+          <td><span class="star">⭐</span> 紫色褪色 + 黑色沉澱 → 鑑別烯!</td>
+        </tr>
+        <tr>
+          <td><span class="type-badge badge-elim">醇脫水製烯</span></td>
+          <td><code class="eq">C₂H₅OH →(H₂SO₄,170℃) CH₂=CH₂ + H₂O</code></td>
+          <td class="cond">濃 H₂SO₄，170~180°C</td>
+          <td><span class="star">⭐</span> 實驗室製乙烯的標準方法</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 炔類 -->
+  <h3 style="font-family:var(--font-disp);font-size:1rem;color:var(--accent3);margin-bottom:0.8rem">
+    ③ 炔類反應
+  </h3>
+  <div class="rtable-wrap" style="margin-bottom:2rem">
+    <table class="rtable">
+      <thead>
+        <tr><th>類型</th><th>方程式</th><th>條件</th><th>⭐ 考試重點</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="type-badge badge-add">氫化（1步）</span></td>
+          <td><code class="eq">HC≡CH + H₂ →(Pt) CH₂=CH₂</code></td>
+          <td class="cond">控制 H₂ 量</td>
+          <td>可停在烯的階段</td>
+        </tr>
+        <tr>
+          <td><span class="type-badge badge-add">鹵化加成</span></td>
+          <td><code class="eq">HC≡CH + Br₂ → CHBr=CHBr →(+Br₂)→ CHBr₂CHBr₂</code></td>
+          <td class="cond">直接混合，可兩步</td>
+          <td><span class="star">⭐</span> 溴的顏色由紅棕→無色；鑑別炔</td>
+        </tr>
+        <tr>
+          <td><span class="type-badge badge-add">水合</span></td>
+          <td>
+            <code class="eq">HC≡CH + H₂O →(HgSO₄) [CH₂=CHOH] → CH₃CHO（乙醛）</code><br>
+            <code class="eq" style="margin-top:4px;display:inline-block">CH₃-C≡CH + H₂O →(HgSO₄) [CH₃-C(OH)=CH₂] → CH₃COCH₃（丙酮）</code>
+          </td>
+          <td class="cond">HgSO₄ / H₂SO₄ 催化，加熱</td>
+          <td><span class="star">⭐</span> 末端炔水合：乙炔→乙醛；丙炔→丙酮（非末端碳加 OH，中間體烯醇重排為酮）。<strong>絕非乙醇！</strong></td>
+        </tr>
+        <tr>
+          <td><span class="type-badge badge-poly">三聚（製苯）</span></td>
+          <td><code class="eq">3HC≡CH →(500°C) C₆H₆（苯）</code></td>
+          <td class="cond">約 500°C，石英管</td>
+          <td><span class="star">⭐</span> 乙炔 3 分子聚合成苯！</td>
+        </tr>
+        <tr>
+          <td><span class="type-badge badge-ox">KMnO₄ 氧化</span></td>
+          <td><code class="eq">3HC≡CH + 10KMnO₄ → 6CO₂ + 10MnO₂↓</code></td>
+          <td class="cond">中性或微鹼性</td>
+          <td>褪色並產生 CO₂（烯的產物是二元醇）</td>
+        </tr>
+        <tr>
+          <td><span class="type-badge badge-sub">末端炔取代</span></td>
+          <td><code class="eq">HC≡CH + 2[Ag(NH₃)₂]⁺ → Ag-C≡C-Ag↓（白色）</code></td>
+          <td class="cond">銀氨溶液，室溫</td>
+          <td><span class="star">⭐</span> 只有末端炔才有！R-C≡C-H 的鑑別關鍵</td>
+        </tr>
+        <tr>
+          <td><span class="type-badge badge-sub">電石製乙炔</span></td>
+          <td><code class="eq">CaC₂ + 2H₂O → HC≡CH + Ca(OH)₂</code></td>
+          <td class="cond">室溫，CaC₂（電石）加水</td>
+          <td><span class="star">⭐</span> 實驗室製乙炔；CaC₂ = 電石</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 芳香烴 -->
+  <h3 style="font-family:var(--font-disp);font-size:1rem;color:var(--accent5);margin-bottom:0.8rem">
+    ④ 芳香烴（苯）反應
+  </h3>
+  <div class="rtable-wrap">
+    <table class="rtable">
+      <thead>
+        <tr><th>類型</th><th>方程式</th><th>條件</th><th>⭐ 考試重點</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="type-badge badge-sub">鹵化取代</span></td>
+          <td>
+            <code class="eq">苯 + Cl₂ →(FeCl₃) 氯苯 + HCl</code>
+            <pre style="margin-top:6px;font-size:0.72rem;color:var(--text2);line-height:1.5;background:rgba(0,0,0,0.2);padding:6px 8px;border-radius:4px;overflow-x:auto">
+  ⬡  +  Cl₂  →(FeCl₃)  ⬡-Cl  +  HCl
+ 苯                      氯苯</pre>
+          </td>
+          <td class="cond">FeCl₃ 或 Fe 催化</td>
+          <td><span class="star">⭐</span> 苯主要進行取代，不是加成！需催化劑</td>
+        </tr>
+        <tr>
+          <td><span class="type-badge badge-sub">硝化取代</span></td>
+          <td>
+            <code class="eq">苯 + HNO₃ →(H₂SO₄,△) 硝基苯（C₆H₅NO₂）+ H₂O</code>
+            <div style="margin-top:8px;padding:8px 10px;background:rgba(206,147,216,0.07);border:1px solid rgba(206,147,216,0.2);border-radius:6px;font-size:0.78rem;line-height:1.7;color:var(--text2)">
+              <span style="color:var(--accent5);font-weight:600">甲苯三硝化 → TNT（2,4,6-三硝基甲苯）：</span><br>
+              甲苯（C₆H₄(CH₃)）+ 3HNO₃ →(H₂SO₄,△) 2,4,6-三硝基甲苯 + 3H₂O<br>
+              <span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--accent3)">
+                結構：苯環上 CH₃ 在 1 位，NO₂ 分別在 2、4、6 位
+              </span>
+              <pre style="margin-top:6px;font-size:0.72rem;color:var(--text2);line-height:1.5;background:rgba(0,0,0,0.2);padding:6px 8px;border-radius:4px;overflow-x:auto">
+        CH₃
+         |
+   O₂N-⬡-NO₂    （苯環，CH₃在頂，NO₂在2,4,6位）
+         |
+        NO₂
+俗稱「黃色炸藥（TNT）」</pre>
+            </div>
+          </td>
+          <td class="cond">濃 HNO₃ + 濃 H₂SO₄，加熱</td>
+          <td><span class="star">⭐</span> 苯→硝基苯（一硝化）；甲苯三次硝化→TNT。硝化常考！</td>
+        </tr>
+        <tr>
+          <td><span class="type-badge badge-sub">磺化取代</span></td>
+          <td><code class="eq">苯 + H₂SO₄ →(△) 苯磺酸 + H₂O</code></td>
+          <td class="cond">濃 H₂SO₄，高溫</td>
+          <td>了解磺化類型即可</td>
+        </tr>
+        <tr>
+          <td><span class="type-badge badge-sub">烷基化</span></td>
+          <td><code class="eq">苯 + CH₃Cl →(AlCl₃) 甲苯 + HCl</code></td>
+          <td class="cond">AlCl₃ 催化劑</td>
+          <td><span class="star">⭐</span> Friedel-Crafts；製備脂芳烴</td>
+        </tr>
+        <tr>
+          <td><span class="type-badge badge-ox">側鏈氧化</span></td>
+          <td>
+            <code class="eq">甲苯 + KMnO₄/OH⁻/△ → 苯甲酸（C₆H₅COOH）</code>
+            <pre style="margin-top:6px;font-size:0.72rem;color:var(--text2);line-height:1.5;background:rgba(0,0,0,0.2);padding:6px 8px;border-radius:4px;overflow-x:auto">
+  ⬡-CH₃  →(KMnO₄/OH⁻/△)  ⬡-COOH
+  甲苯                      苯甲酸
+
+  ⬡-CH₂CH₃  →(KMnO₄)  ⬡-COOH + CO₂
+  乙苯                   苯甲酸（側鏈不管幾個碳都氧化成 -COOH）</pre>
+          </td>
+          <td class="cond">KMnO₄ 鹼性，加熱</td>
+          <td><span class="star">⭐</span> 苯環不被氧化，側鏈氧化成 -COOH；甲苯、乙苯→苯甲酸</td>
+        </tr>
+        <tr>
+          <td><span class="type-badge badge-add">加成（特殊）</span></td>
+          <td><code class="eq">苯 + 3Cl₂ →(UV) 六氯化苯</code></td>
+          <td class="cond">紫外光照射</td>
+          <td>苯在 UV 下的罕見加成；非主要反應</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ══ SEC 4 命名規則 ══ -->
+<section id="sec4">
+  <div class="section-header">
+    <span class="section-num">04</span>
+    <h2 class="section-title">命名規則</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <h3 style="font-family:var(--font-disp);font-size:1rem;color:var(--accent1);margin-bottom:1rem">IUPAC 命名五步驟</h3>
+  <div class="steps" style="margin-bottom:2rem">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <div class="step-title">找最長碳鏈（含官能基）</div>
+        <div class="step-desc">選含官能基（如 C=C、C≡C）的最長碳鏈為主鏈；若有同等長度，選含最多取代基者。</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <div class="step-title">從接近取代基端開始編號</div>
+        <div class="step-desc">讓取代基（或官能基）的位置號碼盡可能最小。</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <div class="step-title">標示取代基位置與名稱</div>
+        <div class="step-desc">用數字標位置，數字與名稱間用「-」連接，例：2-甲基。</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-content">
+        <div class="step-title">多個相同取代基加「二、三……」</div>
+        <div class="step-desc">例：2,2-二甲基；位置號之間以「,」隔開。</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-content">
+        <div class="step-title">寫出完整名稱</div>
+        <div class="step-desc">格式：[位號-個數-取代基名] + [主鏈名]，例：2,2-二甲基丁烷。</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="naming-grid">
+    <div class="naming-card">
+      <div class="naming-card-header" style="background:rgba(79,195,247,0.1);color:var(--accent1)">
+        📖 碳數 × 天干對照
+      </div>
+      <div class="naming-card-body">
+        <table class="suffix-table">
+          <tr><td class="name">1碳</td><td class="zh">甲</td><td class="en">meth-</td></tr>
+          <tr><td class="name">2碳</td><td class="zh">乙</td><td class="en">eth-</td></tr>
+          <tr><td class="name">3碳</td><td class="zh">丙</td><td class="en">prop-</td></tr>
+          <tr><td class="name">4碳</td><td class="zh">丁</td><td class="en">but-</td></tr>
+          <tr><td class="name">5碳</td><td class="zh">戊</td><td class="en">pent-</td></tr>
+          <tr><td class="name">6碳</td><td class="zh">己</td><td class="en">hex-</td></tr>
+          <tr><td class="name">7碳</td><td class="zh">庚</td><td class="en">hept-</td></tr>
+          <tr><td class="name">8碳</td><td class="zh">辛</td><td class="en">oct-</td></tr>
+          <tr><td class="name">9碳</td><td class="zh">壬</td><td class="en">non-</td></tr>
+          <tr><td class="name">10碳</td><td class="zh">癸</td><td class="en">dec-</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="naming-card">
+      <div class="naming-card-header" style="background:rgba(206,147,216,0.1);color:var(--accent5)">
+        🏷 各類有機物字尾 + 結構
+      </div>
+      <div class="naming-card-body">
+        <table class="suffix-table">
+          <tr>
+            <td class="name">烷</td><td class="zh">某烷</td>
+            <td class="en">-ane</td>
+            <td style="font-family:var(--font-mono);font-size:0.72rem;color:var(--text3)">C–C（單鍵）</td>
+          </tr>
+          <tr>
+            <td class="name">烯</td><td class="zh">某烯</td>
+            <td class="en">-ene</td>
+            <td style="font-family:var(--font-mono);font-size:0.72rem;color:var(--accent2)">C=C（雙鍵）</td>
+          </tr>
+          <tr>
+            <td class="name">炔</td><td class="zh">某炔</td>
+            <td class="en">-yne</td>
+            <td style="font-family:var(--font-mono);font-size:0.72rem;color:var(--accent3)">C≡C（參鍵）</td>
+          </tr>
+          <tr>
+            <td class="name">環烷</td><td class="zh">環某烷</td>
+            <td class="en">cyclo-</td>
+            <td style="font-family:var(--font-mono);font-size:0.72rem;color:var(--text3)">環狀 C–C</td>
+          </tr>
+          <tr>
+            <td class="name">醇</td><td class="zh">某醇</td>
+            <td class="en">-ol</td>
+            <td style="font-family:var(--font-mono);font-size:0.72rem;color:var(--accent1)">–OH</td>
+          </tr>
+          <tr>
+            <td class="name">醛</td><td class="zh">某醛</td>
+            <td class="en">-al</td>
+            <td style="font-family:var(--font-mono);font-size:0.72rem;color:var(--accent1)">–CHO</td>
+          </tr>
+          <tr>
+            <td class="name">酮</td><td class="zh">某酮</td>
+            <td class="en">-one</td>
+            <td style="font-family:var(--font-mono);font-size:0.72rem;color:var(--accent1)">R–CO–R'</td>
+          </tr>
+          <tr>
+            <td class="name">羧酸</td><td class="zh">某酸</td>
+            <td class="en">-oic acid</td>
+            <td style="font-family:var(--font-mono);font-size:0.72rem;color:var(--accent4)">–COOH</td>
+          </tr>
+          <tr>
+            <td class="name">酯</td><td class="zh">某酯</td>
+            <td class="en">-oate</td>
+            <td style="font-family:var(--font-mono);font-size:0.72rem;color:var(--accent4)">–COO–</td>
+          </tr>
+          <tr>
+            <td class="name">胺</td><td class="zh">某胺</td>
+            <td class="en">-amine</td>
+            <td style="font-family:var(--font-mono);font-size:0.72rem;color:var(--accent5)">–NH₂</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- 異構物觀念 -->
+  <div style="margin-top:2rem">
+    <h3 style="font-family:var(--font-disp);font-size:1rem;color:var(--accent4);margin-bottom:1rem">📐 異構物（Isomers）觀念整理</h3>
+
+    <div class="callout info" style="margin-bottom:1rem">
+      <span class="callout-icon">🔑</span>
+      <div class="callout-body">
+        <div class="callout-title">定義</div>
+        <strong>異構物（同分異構物）</strong>：分子式相同，但結構式不同的化合物。分子式相同≠化性相同，需看結構。
+      </div>
+    </div>
+
+    <div class="card-grid">
+      <div class="card blue">
+        <div class="card-title">① 碳鏈異構物</div>
+        <div class="card-body">
+          碳鏈的連接方式不同。<br>
+          <span style="font-family:var(--font-mono);font-size:0.8rem;color:var(--accent1)">例：C₅H₁₂</span><br>
+          <pre style="font-size:0.75rem;color:var(--text2);line-height:1.6;margin-top:6px">正戊烷：C-C-C-C-C
+異戊烷：C-C(C)-C-C
+新戊烷：C-C(C)(C)-C</pre>
+        </div>
+      </div>
+      <div class="card green">
+        <div class="card-title">② 位置異構物</div>
+        <div class="card-body">
+          官能基相同，但接在不同位置。<br>
+          <span style="font-family:var(--font-mono);font-size:0.8rem;color:var(--accent2)">例：C₃H₈O（醇）</span><br>
+          <pre style="font-size:0.75rem;color:var(--text2);line-height:1.6;margin-top:6px">1-丙醇：CH₃CH₂CH₂OH
+2-丙醇：CH₃CH(OH)CH₃</pre>
+        </div>
+      </div>
+      <div class="card amber">
+        <div class="card-title">③ 官能基異構物</div>
+        <div class="card-body">
+          分子式相同但官能基種類不同。<br>
+          <span style="font-family:var(--font-mono);font-size:0.8rem;color:var(--accent3)">例：C₂H₆O</span><br>
+          <pre style="font-size:0.75rem;color:var(--text2);line-height:1.6;margin-top:6px">乙醇：CH₃CH₂–OH（醇）
+甲醚：CH₃–O–CH₃（醚）</pre>
+        </div>
+      </div>
+      <div class="card rose">
+        <div class="card-title">④ 幾何異構物（順反）</div>
+        <div class="card-body">
+          雙鍵無法旋轉，兩端碳各接不同基才存在。<br>
+          <span style="font-family:var(--font-mono);font-size:0.8rem;color:var(--accent4)">例：2-丁烯</span><br>
+          <pre style="font-size:0.75rem;color:var(--text2);line-height:1.6;margin-top:6px">順-2-丁烯：兩 CH₃ 在同側
+反-2-丁烯：兩 CH₃ 在異側
+條件：C=C 兩端各接不同原子團</pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout warn" style="margin-top:1rem">
+      <span class="callout-icon">⚠️</span>
+      <div class="callout-body">
+        <div class="callout-title">同系物 vs 異構物 易混淆！</div>
+        <strong>同系物</strong>：官能基相同，且分子式相差 CH₂ 整數倍，化性相似。（例：甲烷、乙烷、丙烷）<br>
+        <strong>異構物</strong>：分子式完全相同，但結構不同，化性可能截然不同。（例：乙醇 vs 甲醚，同為 C₂H₆O）<br>
+        ⚠️ 乙烯（C₂H₄）與環丙烷（C₃H₆）分子式不同 → <strong>不是異構物</strong>，也不是同系物！
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ SEC 5 練習題 ══ -->
+<section id="sec5">
+  <div class="section-header">
+    <span class="section-num">05</span>
+    <h2 class="section-title">學測／指考練習題</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <p style="font-size:0.85rem;color:var(--text3);margin-bottom:1.4rem">
+    👆 點擊題目展開解答
+  </p>
+
+  <div class="quiz-list">
+
+    <div class="quiz-item">
+      <div class="quiz-header" onclick="toggleQuiz(this)">
+        <span class="quiz-num" style="background:rgba(79,195,247,0.15);color:var(--accent1)">Q1</span>
+        <div class="quiz-q"><strong>【官能基判斷】</strong>下列化合物中，哪些具有「順反異構物（幾何異構物）」？
+(A) CH₂=CH₂  (B) CH₃CH=CHCH₃  (C) CH₂=C(CH₃)₂  (D) ClCH=CHCl  (E) CH₂=CHCl</div>
+        <div class="quiz-toggle">▼</div>
+      </div>
+      <div class="quiz-answer">
+        <div class="quiz-answer-inner">
+          <span class="ans-label">ANSWER</span>
+          <strong>正確答案：(B)(D)</strong>
+
+順反異構物存在的條件：雙鍵兩端的碳各接有「不同的兩個原子（團）」。
+(A) 乙烯：每個碳都接兩個 H → 相同 → ✗
+(B) 2-丁烯：每碳分別接 H 和 CH₃，兩端都不同 → ✓
+(C) 2-甲基丙烯：其中一碳接兩個 CH₃ → 相同 → ✗
+(D) 1,2-二氯乙烯：每碳接 H 和 Cl，不同 → ✓
+(E) 氯乙烯：其中一碳接兩個 H → 相同 → ✗
+
+⭐ 關鍵：只要有任一端接相同的兩個基，就不存在順反異構物。</div>
+      </div>
+    </div>
+
+    <div class="quiz-item">
+      <div class="quiz-header" onclick="toggleQuiz(this)">
+        <span class="quiz-num" style="background:rgba(129,199,132,0.15);color:var(--accent2)">Q2</span>
+        <div class="quiz-q"><strong>【反應類型判斷】</strong>下列反應中，哪一個屬於「取代反應」？
+(A) CH₂=CH₂ + Br₂ → CH₂BrCH₂Br
+(B) CH₄ + Cl₂ → CH₃Cl + HCl（光照）
+(C) nCH₂=CH₂ → -(CH₂CH₂)ₙ-
+(D) CH₂=CH₂ + H₂O → CH₃CH₂OH
+(E) HC≡CH + H₂ → CH₂=CH₂</div>
+        <div class="quiz-toggle">▼</div>
+      </div>
+      <div class="quiz-answer">
+        <div class="quiz-answer-inner">
+          <span class="ans-label">ANSWER</span>
+          <strong>正確答案：(B)</strong>
+
+(A) 加成反應：雙鍵打開，Br 加在兩個碳上 ✗
+(B) 取代反應：CH₄ 的 H 被 Cl 取代，同時釋出 HCl ✓
+(C) 聚合反應 ✗
+(D) 加成反應（水合）✗
+(E) 加成反應 ✗
+
+⭐ 取代 = 舊原子「換掉」被「新原子取代」；加成 = 不飽和鍵被打開加入新原子。</div>
+      </div>
+    </div>
+
+    <div class="quiz-item">
+      <div class="quiz-header" onclick="toggleQuiz(this)">
+        <span class="quiz-num" style="background:rgba(255,183,77,0.15);color:var(--accent3)">Q3</span>
+        <div class="quiz-q"><strong>【推測產物】</strong>1-丙炔（HC≡C-CH₃）與「過量溴化氫（HBr）」反應，主要產物為何？（提示：依馬可尼可夫法則，每步加成 H 加在氫多的碳上）</div>
+        <div class="quiz-toggle">▼</div>
+      </div>
+      <div class="quiz-answer">
+        <div class="quiz-answer-inner">
+          <span class="ans-label">ANSWER</span>
+步驟①：HC≡C-CH₃ + HBr → CH₂=C(Br)-CH₃
+（馬氏：H 加在末端碳，Br 加在中間碳）
+
+步驟②：CH₂=C(Br)-CH₃ + HBr → CH₃-CBr₂-CH₃
+（馬氏：H 再加在末端碳）
+
+<strong>→ 主要產物：2,2-二溴丙烷（CH₃CBr₂CH₃）</strong>
+
+⭐ 易錯：每步加成都要重新套馬氏法則！不能直接說「Br 都加在同一碳上」。</div>
+      </div>
+    </div>
+
+    <div class="quiz-item">
+      <div class="quiz-header" onclick="toggleQuiz(this)">
+        <span class="quiz-num" style="background:rgba(206,147,216,0.15);color:var(--accent5)">Q4</span>
+        <div class="quiz-q"><strong>【合成路線設計】</strong>以乙烷（CH₃CH₃）為起始物，設計最短合成路線得到乙醇（CH₃CH₂OH）。請寫出每步反應及條件。</div>
+        <div class="quiz-toggle">▼</div>
+      </div>
+      <div class="quiz-answer">
+        <div class="quiz-answer-inner">
+          <span class="ans-label">ANSWER</span>
+乙烷不能直接水合，需先脫氫形成乙烯，再水合。
+
+步驟①：CH₃CH₃ → CH₂=CH₂ + H₂
+（條件：高溫、觸媒，脫氫反應）
+
+步驟②：CH₂=CH₂ + H₂O → CH₃CH₂OH
+（條件：H₂SO₄ 催化，加熱，水合加成反應）
+
+<strong>⭐ 路線：烷 → 脫氫 → 烯 → 水合 → 醇</strong></div>
+      </div>
+    </div>
+
+    <div class="quiz-item">
+      <div class="quiz-header" onclick="toggleQuiz(this)">
+        <span class="quiz-num" style="background:rgba(79,195,247,0.15);color:var(--accent1)">Q5</span>
+        <div class="quiz-q"><strong>【燃燒分析計算】</strong>取一未知有機化合物燃燒，Mg(ClO₄)₂ 增重 1.8 g，NaOH 增重 4.4 g。若分子量為 30，求：(1) 實驗式 (2) 分子式</div>
+        <div class="quiz-toggle">▼</div>
+      </div>
+      <div class="quiz-answer">
+        <div class="quiz-answer-inner">
+          <span class="ans-label">ANSWER</span>
+(1) 由 Mg(ClO₄)₂ 增重推算 H 重：1.8 × (2/18) = 0.2 g → H 有 0.2 mol
+由 NaOH 增重推算 C 重：4.4 × (12/44) = 1.2 g → C 有 0.1 mol
+
+C : H : O = 0.1 : 0.2 : 0 = 1 : 2 : 0
+<strong>實驗式 = CH₂</strong>
+
+(2) 式量 = 14；分子量 30 ÷ 14 ≈ 2
+<strong>→ 分子式 = C₂H₄（乙烯）</strong>
+
+⭐ C+H 質量 = 樣品總質量（0.2+1.2=1.4≠?）→ 注意題目數字是否需要查 O 重。</div>
+      </div>
+    </div>
+
+    <div class="quiz-item">
+      <div class="quiz-header" onclick="toggleQuiz(this)">
+        <span class="quiz-num" style="background:rgba(129,199,132,0.15);color:var(--accent2)">Q6</span>
+        <div class="quiz-q"><strong>【芳香烴反應判斷】</strong>下列關於苯及其衍生物的敘述，哪些正確？
+(A) 苯不能與 KMnO₄ 反應，甲苯可以
+(B) 苯與氯在紫外光下進行取代反應得氯苯
+(C) 甲苯、乙苯皆可被 KMnO₄ 氧化成苯甲酸
+(D) 苯和乙烯均屬不飽和烴，主要進行加成反應
+(E) 萘（C₁₀H₈）與蒽（C₁₄H₁₀）互為同分異構物</div>
+        <div class="quiz-toggle">▼</div>
+      </div>
+      <div class="quiz-answer">
+        <div class="quiz-answer-inner">
+          <span class="ans-label">ANSWER</span>
+<strong>正確答案：(A)(C)</strong>
+
+(A) ✓ 苯環不被 KMnO₄ 氧化；甲苯的甲基側鏈→苯甲酸
+(B) ✗ 紫外光是「加成」（六氯化苯）；取代需 FeCl₃ 催化！
+(C) ✓ 甲苯和乙苯側鏈均被氧化成 -COOH（苯甲酸）
+(D) ✗ 苯主要進行取代，不是加成
+(E) ✗ 萘 C₁₀H₈，蒽 C₁₄H₁₀，分子式不同，非同分異構物</div>
+      </div>
+    </div>
+
+    <div class="quiz-item">
+      <div class="quiz-header" onclick="toggleQuiz(this)">
+        <span class="quiz-num" style="background:rgba(255,183,77,0.15);color:var(--accent3)">Q7</span>
+        <div class="quiz-q"><strong>【末端炔鑑別】</strong>甲、乙、丙三種氣體分子式分別為 C₂H₂、C₂H₄、C₂H₆。僅用溴水和銀氨溶液，如何設計鑑別流程？</div>
+        <div class="quiz-toggle">▼</div>
+      </div>
+      <div class="quiz-answer">
+        <div class="quiz-answer-inner">
+          <span class="ans-label">ANSWER</span>
+步驟①：通入溴水
+→ 乙烯（C₂H₄）和乙炔（C₂H₂）使溴水褪色
+→ 乙烷（C₂H₆）不反應 → <strong>乙烷鑑別出來 ✓</strong>
+
+步驟②：對剩餘兩種通入銀氨溶液
+→ 乙炔（末端炔 HC≡CH）產生白色沉澱（乙炔銀 Ag₂C₂）
+→ 乙烯（C₂H₄）不反應 → <strong>兩者鑑別完成 ✓</strong>
+
+⭐ 邏輯：溴水（飽和 vs 不飽和）+ 銀氨液（末端炔 vs 烯）</div>
+      </div>
+    </div>
+
+    <div class="quiz-item">
+      <div class="quiz-header" onclick="toggleQuiz(this)">
+        <span class="quiz-num" style="background:rgba(206,147,216,0.15);color:var(--accent5)">Q8</span>
+        <div class="quiz-q"><strong>【命名練習】</strong>寫出以下化合物的 IUPAC 中文名稱：
+(1) CH₃-CH(CH₃)-CH₂-CH₃
+(2) CH₂=C(CH₃)-CH₂-CH₃
+(3) HC≡C-CH(CH₃)-CH₃
+(4) 苯環上接 -C₂H₅（乙基）</div>
+        <div class="quiz-toggle">▼</div>
+      </div>
+      <div class="quiz-answer">
+        <div class="quiz-answer-inner">
+          <span class="ans-label">ANSWER</span>
+(1) 主鏈 4 碳（丁烷），第 2 位有甲基
+    <strong>→ 2-甲基丁烷</strong>
+
+(2) 主鏈 4 碳（丁烯），含雙鍵在 1 位，2 位有甲基
+    <strong>→ 2-甲基-1-丁烯</strong>
+
+(3) 主鏈 4 碳（丁炔），含參鍵在 1 位，3 位有甲基
+    <strong>→ 3-甲基-1-丁炔</strong>
+
+(4) 苯環接乙基 → 以苯為母體
+    <strong>→ 乙苯（ethylbenzene）</strong></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══ SEC 6 易錯清單 ══ -->
+<section id="sec6">
+  <div class="section-header">
+    <span class="section-num">06</span>
+    <h2 class="section-title">高頻易錯清單</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="error-list">
+    <div class="error-item">
+      <div class="e-icon">❌</div>
+      <div class="e-content">
+        <div class="e-title">苯使溴水褪色？</div>
+        <div class="e-desc">苯「不能」直接使溴水褪色！苯的鹵化需要 FeCl₃ 催化才進行取代反應。只有含 C=C 或 C≡C 的烯、炔才能直接使溴水褪色（加成）。</div>
+      </div>
+    </div>
+    <div class="error-item">
+      <div class="e-icon">❌</div>
+      <div class="e-content">
+        <div class="e-title">乙炔水合的產物是乙醇？</div>
+        <div class="e-desc">乙炔（HC≡CH）水合（HgSO₄ 催化）的最終產物是<strong>乙醛（CH₃CHO）</strong>，不是乙醇！中間體烯醇（CH₂=CHOH）不穩定，會重排成乙醛。</div>
+      </div>
+    </div>
+    <div class="error-item">
+      <div class="e-icon">❌</div>
+      <div class="e-content">
+        <div class="e-title">聚乙烯（PE）中還有雙鍵？</div>
+        <div class="e-desc">聚乙烯（PE）中<strong>沒有 C=C 雙鍵</strong>！聚合後所有雙鍵都被打開，形成 -CH₂-CH₂- 重複單鍵結構，所以 PE 是飽和聚合物。</div>
+      </div>
+    </div>
+    <div class="error-item">
+      <div class="e-icon">❌</div>
+      <div class="e-content">
+        <div class="e-title">環烷與烯分子式相同，化性也相同？</div>
+        <div class="e-desc">環烷（如環己烷 CₙH₂ₙ）與烯同為 CₙH₂ₙ，但化性差異很大！環烷不使溴水或 KMnO₄ 褪色；烯可以。不可只看分子式判斷化性。</div>
+      </div>
+    </div>
+    <div class="error-item">
+      <div class="e-icon">❌</div>
+      <div class="e-content">
+        <div class="e-title">苯的碳碳鍵是單雙鍵交替？</div>
+        <div class="e-desc">苯的碳碳鍵全部<strong>等長（1.39 Å）</strong>，是共振結構，鍵級 1.5，不是真正的單雙鍵交替。苯是平面分子，所有 12 個原子在同一平面，鍵角 120°。</div>
+      </div>
+    </div>
+    <div class="error-item">
+      <div class="e-icon">❌</div>
+      <div class="e-content">
+        <div class="e-title">任何炔都能與銀氨液反應？</div>
+        <div class="e-desc">只有<strong>末端炔（R-C≡C-H）</strong>才能與銀氨液或氯化亞銅反應！非末端炔（如 2-丁炔 CH₃-C≡C-CH₃）不能。判斷是否有 H 接在參鍵碳上是關鍵。</div>
+      </div>
+    </div>
+    <div class="error-item">
+      <div class="e-icon">❌</div>
+      <div class="e-content">
+        <div class="e-title">烷類鹵化的條件是「催化劑」？</div>
+        <div class="e-desc">烷類鹵化（取代）的條件是<strong>光照或高溫</strong>，不需要催化劑！這是自由基鏈式反應（光引發），與苯的鹵化（FeCl₃ 催化）完全不同。</div>
+      </div>
+    </div>
+    <div class="error-item">
+      <div class="e-icon">❌</div>
+      <div class="e-content">
+        <div class="e-title">甲苯被 KMnO₄ 氧化的產物是甲醛？</div>
+        <div class="e-desc">甲苯的 KMnO₄ 氧化產物是<strong>苯甲酸（C₆H₅COOH）</strong>，不是甲醛。苯環不被氧化，只有側鏈（-CH₃、-CH₂CH₃ 等）被氧化成 -COOH。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ SEC 7 性質比較 ══ -->
+<section id="sec7">
+  <div class="section-header">
+    <span class="section-num">07</span>
+    <h2 class="section-title">烴類性質快速比較</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="compare-wrap">
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th style="text-align:left">類別</th>
+          <th>通式</th>
+          <th>飽和/不飽和</th>
+          <th>直接使溴水褪色</th>
+          <th>使 KMnO₄ 褪色</th>
+          <th>主要反應類型</th>
+          <th>特殊鑑別法</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="td-name">烷</td>
+          <td class="td-mono">CₙH₂ₙ₊₂</td>
+          <td>飽和</td>
+          <td><span class="no">✗</span></td>
+          <td><span class="no">✗</span></td>
+          <td>燃燒、取代</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td class="td-name">環烷</td>
+          <td class="td-mono">CₙH₂ₙ</td>
+          <td>飽和</td>
+          <td><span class="no">✗</span></td>
+          <td><span class="no">✗</span></td>
+          <td>燃燒、取代</td>
+          <td>—（環丙烷例外）</td>
+        </tr>
+        <tr>
+          <td class="td-name">烯</td>
+          <td class="td-mono">CₙH₂ₙ</td>
+          <td>不飽和</td>
+          <td><span class="yes">✓</span></td>
+          <td><span class="yes">✓</span></td>
+          <td>加成、聚合、氧化</td>
+          <td>溴水 + KMnO₄ 同時褪色</td>
+        </tr>
+        <tr>
+          <td class="td-name">炔</td>
+          <td class="td-mono">CₙH₂ₙ₋₂</td>
+          <td>不飽和</td>
+          <td><span class="yes">✓</span></td>
+          <td><span class="yes">✓</span></td>
+          <td>加成、聚合、氧化、末端取代</td>
+          <td>末端炔 + 銀氨液 → 白色沉澱</td>
+        </tr>
+        <tr>
+          <td class="td-name">苯（芳烴）</td>
+          <td class="td-mono">CₙH₂ₙ₋₆</td>
+          <td>不飽和</td>
+          <td><span class="no">✗</span></td>
+          <td><span class="no">✗</span>（苯環）</td>
+          <td>取代（需催化劑）</td>
+          <td>側鏈被 KMnO₄ 氧化</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout info" style="margin-top:1.5rem">
+    <span class="callout-icon">💡</span>
+    <div class="callout-body">
+      <div class="callout-title">記憶口訣</div>
+      「烯炔褪色（溴水 + 高錳），苯要催化（FeCl₃），烷類光照（取代），炔末段接銀白。」
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  高中有機化學 I · 有機化合物烴類 · 複習站<br>
+  <span style="color:var(--border)">烷 · 烯 · 炔 · 芳香烴 | 官能基導向複習架構</span>
+</footer>
+
+<script>
+// ── Progress bar
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+  document.getElementById('progress').style.width = pct + '%';
+});
+
+// ── Intersection observer for section animations
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.07 });
+document.querySelectorAll('section').forEach(s => obs.observe(s));
+
+// ── Nav active state
+const navTabs = document.querySelectorAll('.nav-tab');
+const sections = document.querySelectorAll('section[id]');
+window.addEventListener('scroll', () => {
+  let cur = '';
+  sections.forEach(s => {
+    if (window.scrollY >= s.offsetTop - 120) cur = s.id;
+  });
+  navTabs.forEach(t => {
+    t.classList.toggle('active', t.getAttribute('href') === '#' + cur);
+  });
+});
+
+// ── Quiz toggle
+function toggleQuiz(header) {
+  const item = header.closest('.quiz-item');
+  item.classList.toggle('open');
+}
+</script>
+</body>
+</html>
