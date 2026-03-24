@@ -1,0 +1,1425 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>靜電學｜高中物理講義整理</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700;900&family=Noto+Sans+TC:wght@300;400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0f1a;
+    --surface: #13162b;
+    --surface2: #1a1e38;
+    --border: #2a2f5a;
+    --accent: #5b8dee;
+    --accent2: #e05a84;
+    --accent3: #4ecdc4;
+    --accent4: #f7c97e;
+    --text: #e8eaf6;
+    --text-muted: #8890b8;
+    --text-dim: #555e90;
+    --formula-bg: #0a0c1f;
+    --glow: rgba(91,141,238,0.15);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 15px;
+    line-height: 1.85;
+    overflow-x: hidden;
+  }
+
+  /* Background texture */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 20% 10%, rgba(91,141,238,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 50% at 80% 80%, rgba(224,90,132,0.07) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 0 28px 80px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ===== HERO ===== */
+  .hero {
+    padding: 72px 0 56px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 60px;
+    position: relative;
+  }
+
+  .hero-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .hero-label::after {
+    content: '';
+    flex: 1;
+    max-width: 80px;
+    height: 1px;
+    background: var(--accent);
+    opacity: 0.4;
+  }
+
+  .hero h1 {
+    font-family: 'Noto Serif TC', serif;
+    font-size: clamp(2.4rem, 6vw, 4rem);
+    font-weight: 900;
+    letter-spacing: -1px;
+    line-height: 1.15;
+    color: var(--text);
+    margin-bottom: 12px;
+  }
+
+  .hero h1 span {
+    color: var(--accent);
+  }
+
+  .hero-sub {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+  }
+
+  .chapter-badges {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 28px;
+  }
+
+  .badge {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    padding: 5px 14px;
+    border-radius: 2px;
+    border: 1px solid;
+  }
+
+  .badge-blue { border-color: var(--accent); color: var(--accent); background: rgba(91,141,238,0.08); }
+  .badge-pink { border-color: var(--accent2); color: var(--accent2); background: rgba(224,90,132,0.08); }
+  .badge-teal { border-color: var(--accent3); color: var(--accent3); background: rgba(78,205,196,0.08); }
+  .badge-gold { border-color: var(--accent4); color: var(--accent4); background: rgba(247,201,126,0.08); }
+
+  /* ===== SECTION ===== */
+  .section {
+    margin-bottom: 64px;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 28px;
+  }
+
+  .section-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    background: rgba(91,141,238,0.1);
+    border: 1px solid rgba(91,141,238,0.3);
+    padding: 4px 10px;
+    border-radius: 2px;
+    letter-spacing: 1px;
+    white-space: nowrap;
+  }
+
+  .section h2 {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 1.45rem;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: 0.5px;
+  }
+
+  .divider {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--border), transparent);
+  }
+
+  /* ===== INTRO BLOCK ===== */
+  .intro-block {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent3);
+    padding: 24px 28px;
+    border-radius: 0 6px 6px 0;
+    line-height: 2;
+    color: var(--text);
+  }
+
+  .intro-block p + p { margin-top: 12px; }
+
+  /* ===== CONCEPT GRID ===== */
+  .concept-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .concept-item {
+    display: grid;
+    grid-template-columns: 44px 1fr;
+    gap: 0;
+    border-bottom: 1px solid var(--border);
+    transition: background 0.2s;
+  }
+
+  .concept-item:last-child { border-bottom: none; }
+  .concept-item:hover { background: var(--surface); }
+
+  .concept-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    background: rgba(91,141,238,0.06);
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 18px 0 0;
+    border-right: 1px solid var(--border);
+  }
+
+  .concept-body {
+    padding: 16px 20px;
+  }
+
+  .concept-title {
+    font-family: 'Noto Serif TC', serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--accent4);
+    margin-bottom: 5px;
+    letter-spacing: 0.3px;
+  }
+
+  .concept-desc {
+    font-size: 0.88rem;
+    color: var(--text);
+    line-height: 1.75;
+  }
+
+  .concept-example {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 7px;
+    font-size: 0.8rem;
+    color: var(--accent3);
+    background: rgba(78,205,196,0.07);
+    border: 1px solid rgba(78,205,196,0.2);
+    padding: 3px 10px;
+    border-radius: 20px;
+  }
+
+  /* ===== FORMULA TABLE ===== */
+  .formula-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .formula-card {
+    background: var(--formula-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .formula-card:hover {
+    border-color: rgba(91,141,238,0.5);
+    box-shadow: 0 0 24px rgba(91,141,238,0.08);
+  }
+
+  .formula-header {
+    padding: 10px 18px;
+    background: rgba(91,141,238,0.08);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .formula-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--accent);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .formula-name {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .formula-body {
+    padding: 16px 18px;
+    display: grid;
+    grid-template-columns: 1fr 1.2fr 1fr;
+    gap: 16px;
+    align-items: start;
+  }
+
+  @media (max-width: 640px) {
+    .formula-body { grid-template-columns: 1fr; }
+  }
+
+  .formula-expr {
+    font-family: 'Space Mono', monospace;
+    font-size: 1.05rem;
+    color: var(--accent4);
+    padding: 10px 14px;
+    background: rgba(247,201,126,0.05);
+    border: 1px solid rgba(247,201,126,0.15);
+    border-radius: 4px;
+    text-align: center;
+    letter-spacing: 0.5px;
+    align-self: center;
+  }
+
+  .formula-symbols {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    line-height: 1.9;
+  }
+
+  .formula-symbols strong {
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  .formula-scenario {
+    font-size: 0.82rem;
+    color: var(--accent3);
+    background: rgba(78,205,196,0.05);
+    border: 1px solid rgba(78,205,196,0.15);
+    border-radius: 4px;
+    padding: 10px 12px;
+    line-height: 1.7;
+    align-self: start;
+  }
+
+  /* ===== PRACTICE QUESTIONS ===== */
+  .question-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .question-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .question-header {
+    padding: 10px 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .q-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--bg);
+    background: var(--accent);
+    width: 26px;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    flex-shrink: 0;
+  }
+
+  .q-type {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .q-type.choice { color: var(--accent2); }
+  .q-type.calc { color: var(--accent4); }
+  .q-type.multi { color: var(--accent3); }
+
+  .question-body {
+    padding: 18px 20px;
+  }
+
+  .question-text {
+    font-size: 0.92rem;
+    line-height: 1.9;
+    color: var(--text);
+    margin-bottom: 14px;
+  }
+
+  .options {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .option {
+    font-size: 0.87rem;
+    color: var(--text-muted);
+    padding: 6px 12px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    transition: all 0.15s;
+  }
+
+  .option:hover {
+    background: rgba(91,141,238,0.05);
+    border-color: rgba(91,141,238,0.3);
+    color: var(--text);
+  }
+
+  .answer-block {
+    margin-top: 14px;
+    padding: 12px 14px;
+    background: rgba(78,205,196,0.05);
+    border: 1px solid rgba(78,205,196,0.2);
+    border-radius: 4px;
+  }
+
+  .answer-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--accent3);
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+  }
+
+  .answer-text {
+    font-size: 0.85rem;
+    color: var(--text);
+    line-height: 1.8;
+  }
+
+  details > summary {
+    cursor: pointer;
+    list-style: none;
+    user-select: none;
+  }
+
+  details > summary::marker,
+  details > summary::-webkit-details-marker { display: none; }
+
+  details > summary .show-btn {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1px;
+    color: var(--accent);
+    background: rgba(91,141,238,0.1);
+    border: 1px solid rgba(91,141,238,0.3);
+    padding: 5px 14px;
+    border-radius: 2px;
+    cursor: pointer;
+    display: inline-block;
+    margin-top: 10px;
+    transition: background 0.15s;
+    text-transform: uppercase;
+  }
+
+  details > summary .show-btn:hover {
+    background: rgba(91,141,238,0.2);
+  }
+
+  /* ===== DIAGRAM SECTION ===== */
+  .diagram-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+
+  .diagram-title {
+    padding: 10px 18px;
+    background: rgba(224,90,132,0.08);
+    border-bottom: 1px solid var(--border);
+    font-family: 'Noto Serif TC', serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: var(--accent2);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .diagram-body {
+    padding: 18px 20px;
+  }
+
+  .diagram-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 12px;
+  }
+
+  @media (max-width: 600px) {
+    .diagram-row { grid-template-columns: 1fr; }
+  }
+
+  .diagram-col-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .diagram-col-body {
+    font-size: 0.85rem;
+    color: var(--text);
+    line-height: 1.8;
+  }
+
+  .trap-box {
+    background: rgba(224,90,132,0.07);
+    border: 1px solid rgba(224,90,132,0.25);
+    border-radius: 4px;
+    padding: 10px 14px;
+    margin-top: 12px;
+    font-size: 0.84rem;
+    color: var(--text);
+    line-height: 1.75;
+  }
+
+  .trap-box .trap-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--accent2);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+  }
+
+  /* ===== SCROLLBAR ===== */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+  /* ===== TOC ===== */
+  .toc {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin-bottom: 56px;
+  }
+
+  .toc-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+  }
+
+  .toc ul {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .toc a {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    padding: 5px 12px;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    transition: all 0.15s;
+  }
+
+  .toc a:hover {
+    color: var(--accent);
+    border-color: rgba(91,141,238,0.4);
+    background: rgba(91,141,238,0.06);
+  }
+
+  .math {
+    font-family: 'Space Mono', monospace;
+    color: var(--accent4);
+    font-size: 0.95em;
+  }
+
+  /* ===== CONCEPT TABLE ===== */
+  .concept-table-wrap {
+    margin: 10px 0 8px;
+    overflow-x: auto;
+  }
+
+  .concept-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.83rem;
+    line-height: 1.6;
+  }
+
+  .concept-table thead tr {
+    background: rgba(91,141,238,0.12);
+  }
+
+  .concept-table th {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.5px;
+    color: var(--accent);
+    padding: 7px 12px;
+    text-align: left;
+    border-bottom: 1px solid rgba(91,141,238,0.3);
+    white-space: nowrap;
+  }
+
+  .concept-table td {
+    padding: 7px 12px;
+    color: var(--text);
+    border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+  }
+
+  .concept-table tbody tr:last-child td { border-bottom: none; }
+
+  .concept-table tbody tr:hover td {
+    background: rgba(91,141,238,0.04);
+  }
+
+  .concept-table td:first-child {
+    font-family: 'Noto Serif TC', serif;
+    font-weight: 700;
+    color: var(--text-muted);
+    white-space: nowrap;
+  }
+
+  .ct-zero  { color: #64b5f6 !important; }
+  .ct-max   { color: var(--accent4) !important; font-weight: 700; }
+  .ct-out   { color: var(--accent3) !important; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-label">高中物理 · 講義整理</div>
+    <h1>靜電學<span>．</span><br>電荷、電場與電位</h1>
+    <div class="hero-sub">Chapter 1 ／ Electrostatics</div>
+    <div class="chapter-badges">
+      <span class="badge badge-blue">1-1 電荷與庫命定律</span>
+      <span class="badge badge-pink">1-2 電場與電力線</span>
+      <span class="badge badge-teal">1-3 電位能與電位</span>
+      <span class="badge badge-gold">學測／指考</span>
+    </div>
+  </div>
+
+  <!-- TOC -->
+  <div class="toc">
+    <div class="toc-title">目錄 · Contents</div>
+    <ul>
+      <li><a href="#intro">① 生活連結</a></li>
+      <li><a href="#concepts">② 核心概念 ×16</a></li>
+      <li><a href="#formulas">③ 公式表</a></li>
+      <li><a href="#practice">④ 變式題</a></li>
+      <li><a href="#diagrams">⑤ 圖表解析</a></li>
+    </ul>
+  </div>
+
+  <!-- SECTION 1: 生活連結 -->
+  <div class="section" id="intro">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <h2>物理概念與生活連結</h2>
+      <div class="divider"></div>
+    </div>
+    <div class="intro-block">
+      <p>靜電學研究的是「靜止電荷」之間的交互作用。你在冬天脫毛衣時產生的靜電、乾燥天氣摸門把被電到，都是電荷累積與放電的結果。影印機、靜電除塵器、觸控螢幕，甚至閃電——全都建立在靜電原理上。</p>
+      <p>更深層地，原子的結構（電子繞質子）靠的正是電荷之間的庫命吸引力。靜電學讓我們理解「場」的概念：電荷不需要接觸就能施力，這個「遠距作用」的思維，後來延伸出磁場、電磁波，乃至現代物理的核心。</p>
+    </div>
+  </div>
+
+  <!-- SECTION 2: 核心概念 -->
+  <div class="section" id="concepts">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <h2>核心概念 × 16</h2>
+      <div class="divider"></div>
+    </div>
+    <div class="concept-list">
+
+      <div class="concept-item">
+        <div class="concept-num">01</div>
+        <div class="concept-body">
+          <div class="concept-title">基本電荷與電荷量子化</div>
+          <div class="concept-desc">所有物質的電荷都是基本電荷 <span class="math">e = 1.6×10⁻¹⁹ C</span> 的整數倍，不可再分割。這稱為「電荷量子化」。</div>
+          <div class="concept-example">🔬 例：一個物體帶電 −3.2×10⁻¹⁹ C，代表它多了 2 個電子</div>
+        </div>
+      </div>
+
+      <div class="concept-item">
+        <div class="concept-num">02</div>
+        <div class="concept-body">
+          <div class="concept-title">電荷守恆定律</div>
+          <div class="concept-desc">一個封閉系統的總電荷量永遠不變。電荷只能轉移，不能憑空創生或消滅。</div>
+          <div class="concept-example">⚡ 例：帶 −5e 的細棒接觸不帶電的金屬球後，電荷重新分配，總和仍為 −5e</div>
+        </div>
+      </div>
+
+      <div class="concept-item">
+        <div class="concept-num">03</div>
+        <div class="concept-body">
+          <div class="concept-title">靜電感應</div>
+          <div class="concept-desc">帶電體靠近（但不接觸）導體時，導體中的自由電子重新分布，使導體兩端出現正、負電荷分離的現象。</div>
+          <div class="concept-example">🧲 例：帶正電玻璃棒靠近金屬球，球的左端聚集負電、右端為正電</div>
+        </div>
+      </div>
+
+      <div class="concept-item">
+        <div class="concept-num">04</div>
+        <div class="concept-body">
+          <div class="concept-title">庫命定律</div>
+          <div class="concept-desc">兩點電荷間的靜電力大小 <span class="math">F = kq₁q₂/r²</span>，與兩者電量乘積成正比，與距離平方成反比；同性相斥、異性相吸。</div>
+          <div class="concept-example">🔋 例：距離拉近一半，靜電力變為 4 倍</div>
+        </div>
+      </div>
+
+      <div class="concept-item">
+        <div class="concept-num">05</div>
+        <div class="concept-body">
+          <div class="concept-title">靜電力的疊加原理</div>
+          <div class="concept-desc">多個點電荷對某一電荷施的靜電力，等於每個電荷單獨存在時所施力的向量和。</div>
+          <div class="concept-example">📐 例：+q 受到 +Q 的斥力和 −Q 的引力，合力用向量相加求得</div>
+        </div>
+      </div>
+
+      <div class="concept-item">
+        <div class="concept-num">06</div>
+        <div class="concept-body">
+          <div class="concept-title">電場的定義</div>
+          <div class="concept-desc">電場 <span class="math">E = F/q</span>，是單位正電荷在該點所受的靜電力。電場方向定義為正電荷在此受力的方向。</div>
+          <div class="concept-example">🧭 例：電場強度 100 N/C，代表 1 C 正電荷在此受 100 N 的力</div>
+        </div>
+      </div>
+
+      <div class="concept-item">
+        <div class="concept-num">07</div>
+        <div class="concept-body">
+          <div class="concept-title">點電荷的電場</div>
+          <div class="concept-desc">帶電量 Q 的點電荷在距離 r 處建立的電場大小為 <span class="math">E = kQ/r²</span>；正電荷的電場向外，負電荷的電場向內。</div>
+          <div class="concept-example">☀️ 例：正電荷就像燈泡，電場線從它射出向四面八方延伸</div>
+        </div>
+      </div>
+
+      <div class="concept-item">
+        <div class="concept-num">08</div>
+        <div class="concept-body">
+          <div class="concept-title">電力線（電場線）</div>
+          <div class="concept-desc">電力線是描述電場分布的假想曲線。電力線從正電荷出發，止於負電荷或無限遠處；切線方向即該點電場方向；密度代表電場強弱。電力線不會相交。</div>
+          <div class="concept-example">🗺️ 例：等量異性電荷之間的電力線形成弧形，從正電荷彎向負電荷</div>
+        </div>
+      </div>
+
+      <div class="concept-item">
+        <div class="concept-num">09</div>
+        <div class="concept-body">
+          <div class="concept-title">靜電平衡與導體球的電場比較</div>
+          <div class="concept-desc">達靜電平衡時，導體內部電場為零，所有淨電荷分布在表面，且表面電場垂直於導體表面。帶電量為 Q、半徑為 R 的導體球（實心或空心），各區域電場如下：</div>
+          <div class="concept-table-wrap">
+            <table class="concept-table">
+              <thead>
+                <tr><th>位置</th><th>條件</th><th>電場大小 E</th><th>說明</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>球內</td>
+                  <td class="math">r &lt; R</td>
+                  <td class="math ct-zero">E = 0</td>
+                  <td>靜電平衡，內部無電場；無電力線穿越</td>
+                </tr>
+                <tr>
+                  <td>球表面</td>
+                  <td class="math">r = R</td>
+                  <td class="math ct-max">E = kQ/R²（最大）</td>
+                  <td>電場最強點，方向垂直表面（Q&gt;0 向外）</td>
+                </tr>
+                <tr>
+                  <td>球外</td>
+                  <td class="math">r &gt; R</td>
+                  <td class="math ct-out">E = kQ/r²（漸減）</td>
+                  <td>與同電量點電荷產生的電場完全相同</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="concept-example">🏠 例：法拉第籠讓內部 E = 0，用於電磁屏蔽；表面是電場最強點，高壓裝置的尖端容易放電</div>
+        </div>
+      </div>
+
+      <div class="concept-item">
+        <div class="concept-num">10</div>
+        <div class="concept-body">
+          <div class="concept-title">靜電屏蔽</div>
+          <div class="concept-desc">空心導體內部（若無電荷）電場為零，無法感受到導體外側電荷所產生的電場。這稱為靜電屏蔽。</div>
+          <div class="concept-example">📱 例：手機訊號在金屬建築或電梯中變差，就是靜電屏蔽效應的體現</div>
+        </div>
+      </div>
+
+      <div class="concept-item">
+        <div class="concept-num">11</div>
+        <div class="concept-body">
+          <div class="concept-title">平行板間的均勻電場</div>
+          <div class="concept-desc">兩塊帶等量異性電荷的無限大平行板之間，電場均勻（大小處處相等），方向由正板指向負板；板外電場相消為零。</div>
+          <div class="concept-example">📺 例：示波器中的偏向板利用均勻電場讓電子束偏轉</div>
+        </div>
+      </div>
+
+      <div class="concept-item">
+        <div class="concept-num">12</div>
+        <div class="concept-body">
+          <div class="concept-title">電荷在均勻電場中的運動（拋體類比）</div>
+          <div class="concept-desc">帶電粒子以初速度垂直射入均勻電場，在場方向做等加速度運動、垂直方向做等速度運動，軌跡為拋物線，類比於重力拋體。</div>
+          <div class="concept-example">🎯 例：電視映像管中電子在偏向電場中走拋物線，打到螢幕特定位置</div>
+        </div>
+      </div>
+
+      <div class="concept-item">
+        <div class="concept-num">13</div>
+        <div class="concept-body">
+          <div class="concept-title">電位能</div>
+          <div class="concept-desc">兩點電荷 Q、q 之間的電位能 <span class="math">Uₑ = kQq/r</span>；同性相斥時 Uₑ > 0，異性相吸時 Uₑ &lt; 0（取無限遠處為零點）。</div>
+          <div class="concept-example">🏔️ 例：把正電荷推近另一個正電荷，要做功克服斥力，系統電位能增加</div>
+        </div>
+      </div>
+
+      <div class="concept-item">
+        <div class="concept-num">14</div>
+        <div class="concept-body">
+          <div class="concept-title">電位（電壓）與導體球的電位比較</div>
+          <div class="concept-desc">電位 <span class="math">V = U/q = kQ/r</span>，是單位正電荷在該點具有的電位能，為純量，可正可負。帶電量 Q、半徑 R 的導體球（實心或空心），各區域電位如下：</div>
+          <div class="concept-table-wrap">
+            <table class="concept-table">
+              <thead>
+                <tr><th>位置</th><th>條件</th><th>電位 V</th><th>說明</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>球內</td>
+                  <td class="math">r &lt; R</td>
+                  <td class="math ct-max">V = kQ/R（定值）</td>
+                  <td>導體為等電位體，球內各點電位均等於表面值，<strong>≠ 0</strong></td>
+                </tr>
+                <tr>
+                  <td>球表面</td>
+                  <td class="math">r = R</td>
+                  <td class="math ct-max">V = kQ/R（最大值）</td>
+                  <td>電位最高點（Q&gt;0 時），與球內相同</td>
+                </tr>
+                <tr>
+                  <td>球外</td>
+                  <td class="math">r &gt; R</td>
+                  <td class="math ct-out">V = kQ/r（隨 r 增大而減小）</td>
+                  <td>與同電量點電荷的電位完全相同，趨向 r→∞ 時 V→0</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="concept-example">🔑 核心易錯點：球內 <strong>E = 0</strong> 但 <strong>V ≠ 0</strong>（V = kQ/R）！電場為零只代表電位不變，不代表電位是零。多個電荷造成的電位取代數和。</div>
+        </div>
+      </div>
+
+      <div class="concept-item">
+        <div class="concept-num">15</div>
+        <div class="concept-body">
+          <div class="concept-title">等電位面與電力線的關係</div>
+          <div class="concept-desc">等電位面（線）是電位相等各點的集合。電力線必定垂直於等電位面；在等電位面上移動電荷，靜電力不作功（電位能不變）。</div>
+          <div class="concept-example">🌐 例：點電荷的等電位面是同心球面，類似地圖上的等高線與地形走勢</div>
+        </div>
+      </div>
+
+      <div class="concept-item">
+        <div class="concept-num">16</div>
+        <div class="concept-body">
+          <div class="concept-title">電子伏特（eV）</div>
+          <div class="concept-desc">電位能的 SI 單位是焦耳（J），但在描述電子、質子等微觀粒子時，焦耳太大了。因此定義「電子伏特」為一個電子通過 1 伏特電位差時所獲得的電位能，作為微觀世界的能量單位：</div>
+          <div class="concept-table-wrap">
+            <table class="concept-table">
+              <thead>
+                <tr><th>項目</th><th>內容</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>定義</td>
+                  <td>1 個電子（電量 e = 1.6×10⁻¹⁹ C）通過 1 V 電位差所獲得的能量</td>
+                </tr>
+                <tr>
+                  <td>換算</td>
+                  <td class="math ct-max">1 eV = 1.6×10⁻¹⁹ J</td>
+                </tr>
+                <tr>
+                  <td>推導</td>
+                  <td class="math">ΔU = qΔV = (1.6×10⁻¹⁹ C) × (1 V) = 1.6×10⁻¹⁹ J</td>
+                </tr>
+                <tr>
+                  <td>符號</td>
+                  <td>eV（電子伏特），不是 SI 基本單位，但物理上廣泛使用</td>
+                </tr>
+                <tr>
+                  <td>注意</td>
+                  <td>電子伏特是<strong>能量</strong>單位，不是電壓單位！學測常考混淆點</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="concept-example">⚛️ 例：電子經 500 V 加速後獲得的動能 = 500 eV = 500 × 1.6×10⁻¹⁹ J = 8×10⁻¹⁷ J</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SECTION 3: 公式表 -->
+  <div class="section" id="formulas">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <h2>重要公式整理</h2>
+      <div class="divider"></div>
+    </div>
+    <div class="formula-grid">
+
+      <div class="formula-card">
+        <div class="formula-header">
+          <span class="formula-tag">F-01</span>
+          <span class="formula-name">庫命定律</span>
+        </div>
+        <div class="formula-body">
+          <div class="formula-expr">F = kq₁q₂ / r²</div>
+          <div class="formula-symbols">
+            <strong>F</strong>：靜電力 (N)<br>
+            <strong>k</strong>：庫命常數 = 9.0×10⁹ N·m²/C²<br>
+            <strong>q₁, q₂</strong>：兩點電荷電量 (C)<br>
+            <strong>r</strong>：兩點電荷間距 (m)
+          </div>
+          <div class="formula-scenario">兩個相距 0.3 m、各帶 1×10⁻⁶ C 的電荷，計算彼此的靜電力大小。</div>
+        </div>
+      </div>
+
+      <div class="formula-card">
+        <div class="formula-header">
+          <span class="formula-tag">F-02</span>
+          <span class="formula-name">電場定義</span>
+        </div>
+        <div class="formula-body">
+          <div class="formula-expr">E = F / q</div>
+          <div class="formula-symbols">
+            <strong>E</strong>：電場強度 (N/C 或 V/m)<br>
+            <strong>F</strong>：測試電荷受到的靜電力 (N)<br>
+            <strong>q</strong>：測試電荷電量 (C)
+          </div>
+          <div class="formula-scenario">已知某點電場為 500 N/C，求 2×10⁻⁴ C 的電荷在此受力。</div>
+        </div>
+      </div>
+
+      <div class="formula-card">
+        <div class="formula-header">
+          <span class="formula-tag">F-03</span>
+          <span class="formula-name">點電荷的電場</span>
+        </div>
+        <div class="formula-body">
+          <div class="formula-expr">E = kQ / r²</div>
+          <div class="formula-symbols">
+            <strong>E</strong>：電場強度 (N/C)<br>
+            <strong>k</strong>：庫命常數<br>
+            <strong>Q</strong>：源電荷電量 (C)<br>
+            <strong>r</strong>：與源電荷的距離 (m)
+          </div>
+          <div class="formula-scenario">求距帶電 +2μC 點電荷 0.1 m 處的電場大小與方向。</div>
+        </div>
+      </div>
+
+      <div class="formula-card">
+        <div class="formula-header">
+          <span class="formula-tag">F-04</span>
+          <span class="formula-name">導體球電場（球外）</span>
+        </div>
+        <div class="formula-body">
+          <div class="formula-expr">E = kQ / r² （r > R）</div>
+          <div class="formula-symbols">
+            <strong>E</strong>：球外某點電場 (N/C)<br>
+            <strong>Q</strong>：球上總電量 (C)<br>
+            <strong>r</strong>：與球心的距離 (m)<br>
+            <strong>R</strong>：球的半徑 (m)<br>
+            球內 r&lt;R 時：E = 0
+          </div>
+          <div class="formula-scenario">半徑 0.1 m 帶電 1μC 的金屬球，求距球心 0.2 m 處的電場。</div>
+        </div>
+      </div>
+
+      <div class="formula-card">
+        <div class="formula-header">
+          <span class="formula-tag">F-05</span>
+          <span class="formula-name">兩點電荷的電位能</span>
+        </div>
+        <div class="formula-body">
+          <div class="formula-expr">Uₑ = kQq / r</div>
+          <div class="formula-symbols">
+            <strong>Uₑ</strong>：電位能 (J)<br>
+            <strong>Q, q</strong>：兩電荷電量 (C)<br>
+            <strong>r</strong>：兩電荷間距 (m)<br>
+            同性 → Uₑ > 0；異性 → Uₑ &lt; 0
+          </div>
+          <div class="formula-scenario">判斷相距 0.5 m 的兩個正電荷的系統電位能，以及靠近時的能量變化。</div>
+        </div>
+      </div>
+
+      <div class="formula-card">
+        <div class="formula-header">
+          <span class="formula-tag">F-06</span>
+          <span class="formula-name">點電荷的電位</span>
+        </div>
+        <div class="formula-body">
+          <div class="formula-expr">V = kQ / r</div>
+          <div class="formula-symbols">
+            <strong>V</strong>：電位 (V = J/C)<br>
+            <strong>Q</strong>：源電荷電量 (C)<br>
+            <strong>r</strong>：與源電荷距離 (m)<br>
+            電位是純量，可正可負
+          </div>
+          <div class="formula-scenario">多個點電荷在某點造成的總電位，直接取各自 V 的代數和。</div>
+        </div>
+      </div>
+
+      <div class="formula-card">
+        <div class="formula-header">
+          <span class="formula-tag">F-07</span>
+          <span class="formula-name">電位能與電位的關係</span>
+        </div>
+        <div class="formula-body">
+          <div class="formula-expr">Uₑ = qV</div>
+          <div class="formula-symbols">
+            <strong>Uₑ</strong>：電荷 q 在此處的電位能 (J)<br>
+            <strong>q</strong>：電荷電量 (C)，含正負號<br>
+            <strong>V</strong>：該點的電位 (V)
+          </div>
+          <div class="formula-scenario">電位為 200 V 的某點，求 −3 C 電荷在此的電位能。</div>
+        </div>
+      </div>
+
+      <div class="formula-card">
+        <div class="formula-header">
+          <span class="formula-tag">F-08</span>
+          <span class="formula-name">平行板電場與電位差</span>
+        </div>
+        <div class="formula-body">
+          <div class="formula-expr">E = ΔV / d</div>
+          <div class="formula-symbols">
+            <strong>E</strong>：板間均勻電場 (V/m)<br>
+            <strong>ΔV</strong>：兩板電位差 (V)<br>
+            <strong>d</strong>：兩板間距 (m)
+          </div>
+          <div class="formula-scenario">兩板相距 0.02 m，電位差 100 V，求板間電場大小。</div>
+        </div>
+      </div>
+
+      <div class="formula-card">
+        <div class="formula-header">
+          <span class="formula-tag">F-09</span>
+          <span class="formula-name">加速電壓與動能</span>
+        </div>
+        <div class="formula-body">
+          <div class="formula-expr">½mv² = q·ΔV</div>
+          <div class="formula-symbols">
+            <strong>m</strong>：粒子質量 (kg)<br>
+            <strong>v</strong>：加速後末速 (m/s)<br>
+            <strong>q</strong>：粒子電量 (C)<br>
+            <strong>ΔV</strong>：加速電位差 (V)
+          </div>
+          <div class="formula-scenario">電子（m=9.11×10⁻³¹ kg，q=1.6×10⁻¹⁹ C）經 1000 V 加速後，求末速度。</div>
+        </div>
+      </div>
+
+      <div class="formula-card">
+        <div class="formula-header">
+          <span class="formula-tag">F-10</span>
+          <span class="formula-name">電荷在均勻電場的拋體運動</span>
+        </div>
+        <div class="formula-body">
+          <div class="formula-expr">y = qE·x² / (2mv₀²)</div>
+          <div class="formula-symbols">
+            <strong>y</strong>：沿電場方向位移 (m)<br>
+            <strong>q</strong>：電荷量 (C)<br>
+            <strong>E</strong>：均勻電場 (N/C)<br>
+            <strong>x</strong>：沿初速方向位移 (m)<br>
+            <strong>m</strong>：質量 (kg)，<strong>v₀</strong>：初速 (m/s)
+          </div>
+          <div class="formula-scenario">電子以速度 v₀ 水平射入平行板，求其在板內的偏移量 y 與 x 的關係。</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SECTION 4: 變式題 -->
+  <div class="section" id="practice">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <h2>學測／指考 變式題 × 5</h2>
+      <div class="divider"></div>
+    </div>
+    <div class="question-list">
+
+      <!-- Q1 -->
+      <div class="question-card">
+        <div class="question-header">
+          <div class="q-num">1</div>
+          <span class="q-type multi">多選題</span>
+          <span style="font-size:0.8rem; color:var(--text-muted); margin-left:auto;">電力線性質</span>
+        </div>
+        <div class="question-body">
+          <div class="question-text">
+            下列有關電力線的敘述，哪些正確？<br>
+            （A）電力線上各點的切線方向，代表正電荷在該點的受力方向<br>
+            （B）電力線愈密集的地方，電場愈強<br>
+            （C）靜電平衡的帶電導體，其表面的電力線必垂直於表面<br>
+            （D）兩條電力線在電荷以外的空間可能在某點相切（接觸但不交叉）<br>
+            （E）負電荷在電場中所受的靜電力方向，與電力線的切線方向相同
+          </div>
+          <details>
+            <summary><span class="show-btn">▶ 顯示解答</span></summary>
+            <div class="answer-block">
+              <div class="answer-label">解答 · Answer</div>
+              <div class="answer-text">
+                <strong>正確答案：ABC</strong><br><br>
+                (A) ✅ 電場方向 = 正電荷受力方向，電力線切線方向即電場方向<br>
+                (B) ✅ 電力線密度代表電場強弱，基本性質<br>
+                (C) ✅ 靜電平衡時電場必垂直導體表面<br>
+                (D) ❌ 電力線即使「相切」也代表該點有兩個電場方向，邏輯上不可能<br>
+                (E) ❌ 負電荷受力方向與電場（電力線切線）方向相反
+              </div>
+            </div>
+          </details>
+        </div>
+      </div>
+
+      <!-- Q2 -->
+      <div class="question-card">
+        <div class="question-header">
+          <div class="q-num">2</div>
+          <span class="q-type calc">計算題</span>
+          <span style="font-size:0.8rem; color:var(--text-muted); margin-left:auto;">庫命定律應用</span>
+        </div>
+        <div class="question-body">
+          <div class="question-text">
+            真空中，點電荷 A（+4×10⁻⁶ C）與點電荷 B（−1×10⁻⁶ C）相距 0.3 m。<br>
+            （1）求 A、B 之間靜電力的大小，並說明是吸力還是斥力。<br>
+            （2）若在 A、B 連線的延長線上（B 的外側）距 B 為 0.1 m 處放置一個測試電荷 +q，求該點合電場的大小與方向。<br>（k = 9×10⁹ N·m²/C²）
+          </div>
+          <details>
+            <summary><span class="show-btn">▶ 顯示解答</span></summary>
+            <div class="answer-block">
+              <div class="answer-label">解答 · Answer</div>
+              <div class="answer-text">
+                <strong>（1）</strong> F = k|q₁||q₂|/r² = 9×10⁹ × 4×10⁻⁶ × 1×10⁻⁶ / (0.3)² = <strong>0.4 N，吸引力</strong>（異性相吸）<br><br>
+                <strong>（2）</strong> 設 C 點在 B 的外側 0.1 m 處，C 距 A 為 0.4 m<br>
+                E_A（A 對 C）= 9×10⁹ × 4×10⁻⁶ / (0.4)² = <strong>225,000 N/C</strong>，方向由 A 指向 C（向右）<br>
+                E_B（B 對 C）= 9×10⁹ × 1×10⁻⁶ / (0.1)² = <strong>900,000 N/C</strong>，方向由 C 指向 B（向左，因 B 為負電荷）<br>
+                合電場 = 900,000 − 225,000 = <strong>675,000 N/C，方向向左（指向 B）</strong>
+              </div>
+            </div>
+          </details>
+        </div>
+      </div>
+
+      <!-- Q3 -->
+      <div class="question-card">
+        <div class="question-header">
+          <div class="q-num">3</div>
+          <span class="q-type choice">單選題</span>
+          <span style="font-size:0.8rem; color:var(--text-muted); margin-left:auto;">導體球電場與電位</span>
+        </div>
+        <div class="question-body">
+          <div class="question-text">
+            一半徑為 R 的帶電金屬實心球，帶電量為 +Q。下列敘述何者正確？<br>
+            （A）球心處的電場大小為 kQ/R²<br>
+            （B）球內任一點的電位皆為零<br>
+            （C）球表面的電位等於球內各點的電位<br>
+            （D）距球心 2R 處的電場是距球心 R 處電場的兩倍<br>
+            （E）球外電場隨距離增加而增大
+          </div>
+          <details>
+            <summary><span class="show-btn">▶ 顯示解答</span></summary>
+            <div class="answer-block">
+              <div class="answer-label">解答 · Answer</div>
+              <div class="answer-text">
+                <strong>正確答案：C</strong><br><br>
+                (A) ❌ 球內（含球心）E = 0<br>
+                (B) ❌ 球內電位 = kQ/R（非零，等於表面電位）<br>
+                (C) ✅ 導體為等電位體，球內各點電位均與表面相同，皆為 kQ/R<br>
+                (D) ❌ 球外 E = kQ/r²；距 2R 處 E = kQ/(2R)² = kQ/4R²，是表面 E = kQ/R² 的 1/4 倍，非兩倍<br>
+                (E) ❌ 球外電場隨距離增加而減小（反平方）
+              </div>
+            </div>
+          </details>
+        </div>
+      </div>
+
+      <!-- Q4 -->
+      <div class="question-card">
+        <div class="question-header">
+          <div class="q-num">4</div>
+          <span class="q-type calc">計算題</span>
+          <span style="font-size:0.8rem; color:var(--text-muted); margin-left:auto;">加速電壓＋拋體運動</span>
+        </div>
+        <div class="question-body">
+          <div class="question-text">
+            一個質量 m = 9.11×10⁻³¹ kg、電量 q = 1.6×10⁻¹⁹ C 的電子，從靜止開始經電位差 ΔV = 500 V 加速後，水平射入兩塊平行金屬板之間。平行板長度 L = 0.06 m，板間距 d = 0.02 m，板間電位差為 200 V（電場向下）。<br>
+            （1）求電子射入平行板時的速度 v₀。<br>
+            （2）求電子在平行板中的垂直偏移量 y。<br>
+            （g 忽略，√(1.76×10¹²) ≈ 1.33×10⁶ m/s）
+          </div>
+          <details>
+            <summary><span class="show-btn">▶ 顯示解答</span></summary>
+            <div class="answer-block">
+              <div class="answer-label">解答 · Answer</div>
+              <div class="answer-text">
+                <strong>（1）</strong> ½mv₀² = qΔV<br>
+                v₀ = √(2qΔV/m) = √(2×1.6×10⁻¹⁹×500 / 9.11×10⁻³¹)<br>
+                = √(1.76×10¹⁴) ≈ <strong>1.33×10⁷ m/s</strong><br><br>
+                <strong>（2）</strong> 板間電場 E = ΔV/d = 200/0.02 = 10,000 N/C<br>
+                加速度 a = qE/m = 1.6×10⁻¹⁹×10⁴ / 9.11×10⁻³¹ ≈ 1.76×10¹⁵ m/s²<br>
+                通過板的時間 t = L/v₀ = 0.06/1.33×10⁷ ≈ 4.51×10⁻⁹ s<br>
+                y = ½at² ≈ ½ × 1.76×10¹⁵ × (4.51×10⁻⁹)² ≈ <strong>1.79×10⁻² m ≈ 0.018 m</strong><br>
+                （注意：y &lt; d/2 = 0.01 m？→ 需重新確認是否超出板）<br>
+                y ≈ 0.018 m > 0.01 m，電子已打到板上，實際偏移為 0.01 m。
+              </div>
+            </div>
+          </details>
+        </div>
+      </div>
+
+      <!-- Q5 -->
+      <div class="question-card">
+        <div class="question-header">
+          <div class="q-num">5</div>
+          <span class="q-type multi">多選題</span>
+          <span style="font-size:0.8rem; color:var(--text-muted); margin-left:auto;">電位與電位能綜合</span>
+        </div>
+        <div class="question-body">
+          <div class="question-text">
+            下列有關電位與電位能的敘述，哪些正確？<br>
+            （A）電位高的地方，電位能一定大<br>
+            （B）正電荷在電場中靜止釋放，必從高電位移向低電位<br>
+            （C）負電荷在電場中靜止釋放，必從低電位移向高電位<br>
+            （D）在等電位面上移動電荷，靜電力必定不作功<br>
+            （E）電場方向由高電位指向低電位
+          </div>
+          <details>
+            <summary><span class="show-btn">▶ 顯示解答</span></summary>
+            <div class="answer-block">
+              <div class="answer-label">解答 · Answer</div>
+              <div class="answer-text">
+                <strong>正確答案：BCDE</strong><br><br>
+                (A) ❌ 電位能 U = qV，負電荷在高電位處電位能反而小（負值更負）<br>
+                (B) ✅ 正電荷受力方向與電場同向（即高→低電位），靜止釋放自然從高電位移向低電位<br>
+                (C) ✅ 負電荷受力方向與電場反向（即低→高電位），靜止釋放從低電位移向高電位<br>
+                (D) ✅ 等電位面上 V 相同 → ΔU = qΔV = 0 → 靜電力不作功<br>
+                (E) ✅ 電場沿電位降低方向，這是電場的基本定義關係
+              </div>
+            </div>
+          </details>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SECTION 5: 圖表解析 -->
+  <div class="section" id="diagrams">
+    <div class="section-header">
+      <span class="section-num">05</span>
+      <h2>圖表解析與考試陷阱</h2>
+      <div class="divider"></div>
+    </div>
+
+    <div class="diagram-card">
+      <div class="diagram-title">📊 圖表一：電力線分布圖（單一點電荷／兩電荷）</div>
+      <div class="diagram-body">
+        <div class="diagram-row">
+          <div>
+            <div class="diagram-col-title">圖表重點</div>
+            <div class="diagram-col-body">
+              正電荷：電力線從中心向四面八方射出，對稱分布。<br>
+              負電荷：電力線從四面八方指向中心收攏。<br>
+              電量加倍：電力線條數加倍，密度加倍，電場加倍。<br>
+              等量異性電荷：電力線從正電荷出發，彎弧後終止於負電荷；兩電荷連線中點的電場最強（電力線最密集）。<br>
+              兩個同性電荷：電力線之間存在「電場為零」的中性點，電力線在該點發散、不相交。
+            </div>
+          </div>
+          <div>
+            <div class="diagram-col-title">考試可能問法</div>
+            <div class="diagram-col-body">
+              → 依電力線疏密比較兩點電場大小<br>
+              → 判斷電荷正負（電力線進出方向）<br>
+              → 比較不同位置的電場方向（切線）<br>
+              → 找出兩同性電荷連線上電場為零的位置<br>
+              → 描述等量異性電荷的電力線「在電荷外不相交」
+            </div>
+          </div>
+        </div>
+        <div class="trap-box">
+          <div class="trap-label">⚠️ 常見陷阱</div>
+          電力線的條數（密度）與電荷電量成正比，不是任意畫的。很多同學混淆「電力線切線方向 = 電場方向」和「電荷的運動方向」——帶電粒子不一定沿電力線運動（有初速度時走拋物線，只有靜止才沿電力線加速）。
+        </div>
+      </div>
+    </div>
+
+    <div class="diagram-card">
+      <div class="diagram-title">📊 圖表二：導體球電場（E-r）與電位（V-r）完整比較</div>
+      <div class="diagram-body">
+
+        <!-- E and V comparison table -->
+        <div style="overflow-x:auto; margin-bottom:14px;">
+          <table class="concept-table">
+            <thead>
+              <tr>
+                <th>位置</th>
+                <th>條件</th>
+                <th>電場 E</th>
+                <th>電位 V</th>
+                <th>關鍵特徵</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>球內</td>
+                <td class="math">r &lt; R</td>
+                <td class="math ct-zero">E = 0</td>
+                <td class="math ct-max">V = kQ/R（定值）</td>
+                <td>E 為零但 V 不為零！導體為等電位體</td>
+              </tr>
+              <tr>
+                <td>球表面</td>
+                <td class="math">r = R</td>
+                <td class="math ct-max">E = kQ/R²（最大值）</td>
+                <td class="math ct-max">V = kQ/R（最大值）</td>
+                <td>E 最強點；V 也是最高點（Q&gt;0 時）</td>
+              </tr>
+              <tr>
+                <td>球外</td>
+                <td class="math">r &gt; R</td>
+                <td class="math ct-out">E = kQ/r²（↓隨 r 增大）</td>
+                <td class="math ct-out">V = kQ/r（↓隨 r 增大）</td>
+                <td>與同電量點電荷完全相同；r→∞ 時均趨近 0</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="diagram-row">
+          <div>
+            <div class="diagram-col-title">E-r 圖形描述</div>
+            <div class="diagram-col-body">
+              • r &lt; R（球內）：E = 0，圖形為貼著 x 軸的水平線。<br>
+              • r = R（表面）：E 突然跳升至最大值 kQ/R²，為不連續點。<br>
+              • r &gt; R（球外）：E = kQ/r²，從最大值開始隨距離增大而下降，呈雙曲線形狀。<br>
+              • <strong>E-r 圖在表面處有一個「斷崖式跳升」</strong>，這是導體球特有的圖形特徵。
+            </div>
+          </div>
+          <div>
+            <div class="diagram-col-title">V-r 圖形描述</div>
+            <div class="diagram-col-body">
+              • r &lt; R（球內）：V = kQ/R，為<strong>一條水平直線</strong>（等電位體）。<br>
+              • r = R（表面）：V = kQ/R，與球內連續接合，無跳躍。<br>
+              • r &gt; R（球外）：V = kQ/r，從 kQ/R 開始平滑下降至趨近 0。<br>
+              • <strong>V-r 圖在表面處是連續的</strong>，不像 E-r 圖那樣有斷崖，這是兩圖最大的差異。
+            </div>
+          </div>
+        </div>
+
+        <div class="trap-box">
+          <div class="trap-label">⚠️ 最核心易錯點（必考！）</div>
+          <strong>球內 E = 0，但 V = kQ/R ≠ 0。</strong> 這是靜電學最常考的混淆點。電場為零只表示「電位不再隨位置改變（梯度為零）」，而不是電位本身等於零。另一個易錯點：E-r 圖在 r = R 表面處有<strong>不連續跳躍</strong>，而 V-r 圖在 r = R 處是<strong>連續平滑</strong>的——兩圖行為完全不同。空心球殼與實心球的 E-r、V-r 圖完全相同（前提：球殼內無其他電荷）。
+        </div>
+      </div>
+    </div>
+
+    <div class="diagram-card">
+      <div class="diagram-title">📊 圖表三：均勻電場中電荷的拋體運動（偏向示意圖）</div>
+      <div class="diagram-body">
+        <div class="diagram-row">
+          <div>
+            <div class="diagram-col-title">實驗步驟重點</div>
+            <div class="diagram-col-body">
+              1. 以加速電壓 ΔV 讓電子由靜止加速，求初速 v₀（能量守恆）。<br>
+              2. 電子以 v₀ 水平射入平行板間的均勻電場 E。<br>
+              3. x 方向：等速，x = v₀t，求過板時間 t = L/v₀。<br>
+              4. y 方向：等加速，a = qE/m，偏移量 y = ½at²。<br>
+              5. 離板後：x 方向等速、y 方向也等速（合成後為直線斜射）。<br>
+              6. 若 y &gt; d/2，電子在板內就打到板面，需注意。
+            </div>
+          </div>
+          <div>
+            <div class="diagram-col-title">考試可能問法</div>
+            <div class="diagram-col-body">
+              → 求電子離板時的速度大小和方向（tan θ = vy/vx）<br>
+              → 加速電壓與偏向電壓同時改變，分析偏移量如何改變<br>
+              → 比較質子與電子在相同電場中偏移量（質量不同，a 不同）<br>
+              → 考慮重力時，若重力與電場力平衡，求電場大小（qE = mg）
+            </div>
+          </div>
+        </div>
+        <div class="trap-box">
+          <div class="trap-label">⚠️ 常見陷阱</div>
+          很多同學忘記檢查電子「是否在板內就撞到板」，直接套公式求偏移量。另外，離板後的運動是直線（不是拋物線），因為此時電場消失，只剩初速度的兩個分量合成。注意題目若問「離板後打到螢幕的位置」，要再加上直線段的額外位移。
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+</body>
+</html>
